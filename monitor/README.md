@@ -1,5 +1,3 @@
-# Random Python scripts
-
 ## `monitor.py`
 
 It is a Python wrapper to system command calls that recursively checks memory usage every 2 seconds and report it at the end of execution:
