@@ -28,6 +28,7 @@ class ProcessTimer:
   def __init__(self,command):
     self.command = command
     self.execution_state = False
+    self.interval = 2
 
   def execute(self):
     self.max_vms_memory = 0
@@ -106,12 +107,12 @@ try:
   #poll as often as possible; otherwise the subprocess might
   # "sneak" in some extra memory usage while you aren't looking
   while ptimer.poll():
-    time.sleep(2)
+    time.sleep(ptimer.interval)
 finally:
   #make sure that we don't leave the process dangling?
   ptimer.close()
 
 print('return code:', ptimer.p.returncode)
-print('time: {:.2f}s'.format(ptimer.t1 - ptimer.t0))
+print('time: {:.2f}s'.format(ptimer.t1 - ptimer.t0 - ptimer.interval))
 print('max_vms_memory: {:.2f}GB'.format(ptimer.max_vms_memory * 1.07E-9))
 print('max_rss_memory: {:.2f}GB'.format(ptimer.max_rss_memory * 1.07E-9))
