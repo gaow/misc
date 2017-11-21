@@ -19,7 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
 import time
 import psutil
 import subprocess
@@ -103,22 +102,25 @@ def takewhile_excluding(iterable, value = ['|', '<', '>']):
             return
         yield it
 
-if len(sys.argv) <= 1:
-  sys.exit()
+if __name__ == '__main__':
+  import sys
 
-ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]))
+  if len(sys.argv) <= 1:
+    sys.exit()
 
-try:
-  ptimer.execute()
-  #poll as often as possible; otherwise the subprocess might
-  # "sneak" in some extra memory usage while you aren't looking
-  while ptimer.poll():
-    time.sleep(ptimer.interval)
-finally:
-  #make sure that we don't leave the process dangling?
-  ptimer.close()
+  ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]))
 
-sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
-sys.stderr.write('time: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
-sys.stderr.write('max_vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
-sys.stderr.write('max_rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
+  try:
+    ptimer.execute()
+    #poll as often as possible; otherwise the subprocess might
+    # "sneak" in some extra memory usage while you aren't looking
+    while ptimer.poll():
+      time.sleep(ptimer.interval)
+  finally:
+    #make sure that we don't leave the process dangling?
+    ptimer.close()
+
+  sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
+  sys.stderr.write('time: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
+  sys.stderr.write('max_vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
+  sys.stderr.write('max_rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
