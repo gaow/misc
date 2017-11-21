@@ -75,7 +75,6 @@ class ProcessTimer:
 
     return self.check_execution_state()
 
-
   def is_running(self):
     return psutil.pid_exists(self.p.pid) and self.p.poll() == None
   
