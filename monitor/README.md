@@ -18,7 +18,7 @@ return code: 0
 time: 3.08s
 max_vms_memory: 1.18GB
 max_rss_memory: 0.76GB
-[GW] python monitor.py R --slave -e "x = runif(1E9)"
+[GW] ./monitor.py R --slave -e "x = runif(1E9)"
 return code: 0
 time: 26.72s
 max_vms_memory: 8.97GB
