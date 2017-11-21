@@ -28,7 +28,7 @@ class ProcessTimer:
   def __init__(self,command):
     self.command = command
     self.execution_state = False
-    self.interval = 2
+    self.interval = 1
 
   def execute(self):
     self.max_vms_memory = 0
