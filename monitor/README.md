@@ -19,3 +19,10 @@ time: 3.08s
 max_vms_memory: 1.18GB
 max_rss_memory: 0.76GB
 ```
+
+To use on Uchicago RCC, you need to `module load python/3.5.2`. If the test command above does
+not work with error message `psutil not found` you then need to install that module:
+
+```
+pip install psutil
+```
