@@ -1,6 +1,6 @@
 ## `monitor.py`
 
-It is a Python wrapper to system command calls that recursively checks memory usage every 2 seconds and report it at the end of execution:
+It is a Python wrapper to system command calls that recursively checks memory usage every 2 seconds and report the peak usage at the end of execution:
 
 ```
 [GW] ./monitor.py R --slave -e "x = runif(1E2)"
