@@ -36,7 +36,7 @@ class ProcessTimer:
 
     self.t1 = None
     self.t0 = time.time()
-    self.p = subprocess.Popen(self.command,shell=False)
+    self.p = subprocess.Popen(self.command, shell=False)
     self.execution_state = True
 
   def poll(self):
@@ -97,9 +97,15 @@ class ProcessTimer:
     except psutil.NoSuchProcess:
       pass
 
+def takewhile_excluding(iterable, value = ['|', '<', '>']):
+    for it in iterable:
+        if it in value:
+            return
+        yield it
+
 if len(sys.argv) <= 1:
   sys.exit()
-ptimer = ProcessTimer(sys.argv[1:])
+ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]))
 
 try:
   ptimer.execute()
@@ -111,7 +117,7 @@ finally:
   #make sure that we don't leave the process dangling?
   ptimer.close()
 
-print('return code:', ptimer.p.returncode)
-print('time: {:.2f}s'.format(ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5))
-print('max_vms_memory: {:.2f}GB'.format(ptimer.max_vms_memory * 1.07E-9))
-print('max_rss_memory: {:.2f}GB'.format(ptimer.max_rss_memory * 1.07E-9))
+sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
+sys.stderr.write('time: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
+sys.stderr.write('max_vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
+sys.stderr.write('max_rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
