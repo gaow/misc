@@ -72,12 +72,12 @@ class ProcessTimer:
     except psutil.NoSuchProcess:
       return self.check_execution_state()
 
-
     return self.check_execution_state()
 
 
   def is_running(self):
     return psutil.pid_exists(self.p.pid) and self.p.poll() == None
+  
   def check_execution_state(self):
     if not self.execution_state:
       return False
@@ -88,7 +88,6 @@ class ProcessTimer:
     return False
 
   def close(self,kill=False):
-
     try:
       pp = psutil.Process(self.p.pid)
       if kill:
