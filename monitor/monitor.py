@@ -112,6 +112,6 @@ finally:
   ptimer.close()
 
 print('return code:', ptimer.p.returncode)
-print('time: {:.2f}s'.format(ptimer.t1 - ptimer.t0 - ptimer.interval + 0.5))
+print('time: {:.2f}s'.format(ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5))
 print('max_vms_memory: {:.2f}GB'.format(ptimer.max_vms_memory * 1.07E-9))
 print('max_rss_memory: {:.2f}GB'.format(ptimer.max_rss_memory * 1.07E-9))
