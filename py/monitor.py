@@ -111,7 +111,7 @@ finally:
   #make sure that we don't leave the process dangling?
   ptimer.close()
 
-print('return code:',ptimer.p.returncode)
-print('time:',ptimer.t1 - ptimer.t0)
-print('max_vms_memory (GB): {:.2f}'.format(ptimer.max_vms_memory * 1.07E-9))
-print('max_rss_memory (GB): {:.2f}'.format(ptimer.max_rss_memory * 1.07E-9))
+print('return code:', ptimer.p.returncode)
+print('time: {:.2f}s'.format(ptimer.t1 - ptimer.t0))
+print('max_vms_memory: {:.2f}GB'.format(ptimer.max_vms_memory * 1.07E-9))
+print('max_rss_memory: {:.2f}GB'.format(ptimer.max_rss_memory * 1.07E-9))
