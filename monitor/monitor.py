@@ -105,6 +105,7 @@ def takewhile_excluding(iterable, value = ['|', '<', '>']):
 
 if len(sys.argv) <= 1:
   sys.exit()
+
 ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]))
 
 try:
