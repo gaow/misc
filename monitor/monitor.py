@@ -24,18 +24,24 @@ import psutil
 import subprocess
 
 class ProcessTimer:
-  def __init__(self,command):
+  def __init__(self, command, interval = 1):
     self.command = command
     self.execution_state = False
-    self.interval = 1
+    self.interval = interval
 
   def execute(self):
     self.max_vms_memory = 0
     self.max_rss_memory = 0
 
-    self.t1 = None
     self.t0 = time.time()
-    self.p = subprocess.Popen(self.command, shell=False)
+    self.t1 = None
+    self.max_t0 = self.t0
+    self.max_t1 = self.t0
+    try:
+      self.p = subprocess.Popen(self.command, shell=False)
+    except FileNotFoundError:
+      self.p = None
+      sys.exit("Invalid command `{}`".format(sys.argv[1]))
     self.execution_state = True
 
   def poll(self):
@@ -54,7 +60,7 @@ class ProcessTimer:
       rss_memory = 0
       vms_memory = 0
 
-      #calculate and sum up the memory of the subprocess and all its descendants 
+      #calculate and sum up the memory of the subprocess and all its descendants
       for descendant in descendants:
         try:
           mem_info = descendant.memory_info()
@@ -66,6 +72,10 @@ class ProcessTimer:
           # we obtain a list of descendants, and the time we actually poll this
           # descendant's memory usage.
           pass
+      if self.max_vms_memory < vms_memory:
+        self.max_t0 = self.t1
+      if self.max_vms_memory == vms_memory:
+        self.max_t1 = self.t1
       self.max_vms_memory = max(self.max_vms_memory,vms_memory)
       self.max_rss_memory = max(self.max_rss_memory,rss_memory)
 
@@ -76,7 +86,7 @@ class ProcessTimer:
 
   def is_running(self):
     return psutil.pid_exists(self.p.pid) and self.p.poll() == None
-  
+
   def check_execution_state(self):
     if not self.execution_state:
       return False
@@ -87,14 +97,15 @@ class ProcessTimer:
     return False
 
   def close(self,kill=False):
-    try:
-      pp = psutil.Process(self.p.pid)
-      if kill:
-        pp.kill()
-      else:
-        pp.terminate()
-    except psutil.NoSuchProcess:
-      pass
+    if self.p is not None:
+      try:
+        pp = psutil.Process(self.p.pid)
+        if kill:
+          pp.kill()
+        else:
+          pp.terminate()
+      except psutil.NoSuchProcess:
+        pass
 
 def takewhile_excluding(iterable, value = ['|', '<', '>']):
     for it in iterable:
@@ -103,12 +114,26 @@ def takewhile_excluding(iterable, value = ['|', '<', '>']):
         yield it
 
 if __name__ == '__main__':
-  import sys
+  import sys, os, json
 
   if len(sys.argv) <= 1:
     sys.exit()
 
-  ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]))
+  config_file = os.path.expanduser('~/.config/mem_monitor.conf')
+  if not os.path.exists(os.path.dirname(config_file)):
+    os.makedirs(os.path.dirname(config_file))
+
+  if len(sys.argv) == 2 and sys.argv[1].replace('.', '', 1).isdigit():
+    with open(config_file, 'w') as f:
+      json.dump(dict([('interval', float(sys.argv[1]))]), f)
+    sys.exit('Check interval set to {} seconds'.format(float(sys.argv[1])))
+
+  try:
+    interval = json.load(open(config_file))['interval']
+  except:
+    interval = 1
+
+  ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]), interval)
 
   try:
     ptimer.execute()
@@ -121,6 +146,9 @@ if __name__ == '__main__':
     ptimer.close()
 
   sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
+  sys.stderr.write('memory check interval: %ss\n' % ptimer.interval)
   sys.stderr.write('time: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
-  sys.stderr.write('max_vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
-  sys.stderr.write('max_rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
+  sys.stderr.write('peak first occurred: {:.2f}s\n'.format(ptimer.max_t0 - ptimer.t0))
+  sys.stderr.write('peak last occurred: {:.2f}s\n'.format(ptimer.max_t1 - ptimer.t0))
+  sys.stderr.write('max vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
+  sys.stderr.write('max rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
