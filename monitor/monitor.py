@@ -114,24 +114,12 @@ def takewhile_excluding(iterable, value = ['|', '<', '>']):
         yield it
 
 if __name__ == '__main__':
-  import sys, os, json
+  import sys, os
 
   if len(sys.argv) <= 1:
     sys.exit()
 
-  config_file = os.path.expanduser('~/.config/mem_monitor.conf')
-  if not os.path.exists(os.path.dirname(config_file)):
-    os.makedirs(os.path.dirname(config_file))
-
-  if len(sys.argv) == 2 and sys.argv[1].replace('.', '', 1).isdigit():
-    with open(config_file, 'w') as f:
-      json.dump(dict([('interval', float(sys.argv[1]))]), f)
-    sys.exit('Check interval set to {} seconds'.format(float(sys.argv[1])))
-
-  try:
-    interval = json.load(open(config_file))['interval']
-  except:
-    interval = 1
+  interval = float(os.environ['MEM_CHECK_INTERVAL']) if 'MEM_CHECK_INTERVAL' in os.environ else 1
 
   ptimer = ProcessTimer(takewhile_excluding(sys.argv[1:]), interval)
 

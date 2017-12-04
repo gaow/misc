@@ -40,11 +40,17 @@ max vms_memory: 8.98GB
 max rss_memory: 8.53GB
 ```
 
-A single float number as input argument will set the intervals at which the program checks the memory:
-
+The check interval can be changed via:
 ```
-$ ./monitor.py 0.5 
-Check interval set to 0.5 seconds
+$ export MEM_CHECK_INTERVAL=0.4
+$ ./monitor.py R --slave -e "x = runif(1E4)"
+return code: 0
+memory check interval: 0.4s
+time: 0.24s
+peak first occurred: 0.00s
+peak last occurred: 0.00s
+max vms_memory: 0.13GB
+max rss_memory: 0.01GB
 ```
 
 To use on Uchicago RCC, you need to `module load python/3.5.2`. If the test command above does
