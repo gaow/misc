@@ -35,8 +35,7 @@ class ProcessTimer:
 
     self.t0 = time.time()
     self.t1 = None
-    self.max_t0 = self.t0
-    self.max_t1 = self.t0
+    self.max_t = [self.t0]
     try:
       self.p = subprocess.Popen(self.command, shell=False)
     except FileNotFoundError:
@@ -72,10 +71,12 @@ class ProcessTimer:
           # we obtain a list of descendants, and the time we actually poll this
           # descendant's memory usage.
           pass
-      if self.max_vms_memory < vms_memory:
-        self.max_t0 = self.t1
-      if self.max_vms_memory == vms_memory:
-        self.max_t1 = self.t1
+      if int(self.max_vms_memory * 1E-7) < int(vms_memory * 1E-7):
+        # peak memory updated
+        self.max_t = [self.t1]
+      if int(self.max_vms_memory * 1E-7) == int(vms_memory * 1E-7):
+        # peak memory maintained
+        self.max_t.append(self.t1)
       self.max_vms_memory = max(self.max_vms_memory,vms_memory)
       self.max_rss_memory = max(self.max_rss_memory,rss_memory)
 
@@ -136,7 +137,7 @@ if __name__ == '__main__':
   sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
   sys.stderr.write('memory check interval: %ss\n' % ptimer.interval)
   sys.stderr.write('time: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
-  sys.stderr.write('peak first occurred: {:.2f}s\n'.format(ptimer.max_t0 - ptimer.t0))
-  sys.stderr.write('peak last occurred: {:.2f}s\n'.format(ptimer.max_t1 - ptimer.t0))
+  sys.stderr.write('peak first occurred: {:.2f}s\n'.format(min(ptimer.max_t) - ptimer.t0))
+  sys.stderr.write('peak last occurred: {:.2f}s\n'.format(max(ptimer.max_t) - ptimer.t0))
   sys.stderr.write('max vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
   sys.stderr.write('max rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
