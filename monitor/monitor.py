@@ -76,7 +76,7 @@ class ProcessTimer:
         self.max_t = [self.t1]
       if int(self.max_vms_memory * 1E-8) == int(vms_memory * 1E-8):
         # peak memory maintained
-        self.max_t.append(self.t1)
+        self.max_t = [self.max_t[0], self.t1]
       self.max_vms_memory = max(self.max_vms_memory,vms_memory)
       self.max_rss_memory = max(self.max_rss_memory,rss_memory)
 
