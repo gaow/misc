@@ -71,10 +71,10 @@ class ProcessTimer:
           # we obtain a list of descendants, and the time we actually poll this
           # descendant's memory usage.
           pass
-      if int(self.max_vms_memory * 1E-7) < int(vms_memory * 1E-7):
-        # peak memory updated
+      if int(self.max_vms_memory * 1E-8) < int(vms_memory * 1E-8):
+        # peak memory updated, at about 100MB resolution
         self.max_t = [self.t1]
-      if int(self.max_vms_memory * 1E-7) == int(vms_memory * 1E-7):
+      if int(self.max_vms_memory * 1E-8) == int(vms_memory * 1E-8):
         # peak memory maintained
         self.max_t.append(self.t1)
       self.max_vms_memory = max(self.max_vms_memory,vms_memory)
@@ -134,10 +134,10 @@ if __name__ == '__main__':
     #make sure that we don't leave the process dangling?
     ptimer.close()
 
-  sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
-  sys.stderr.write('memory check interval: %ss\n' % ptimer.interval)
-  sys.stderr.write('time: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
+  sys.stderr.write('\ntime elapsed: {:.2f}s\n'.format(max(0, ptimer.t1 - ptimer.t0 - ptimer.interval * 0.5)))
   sys.stderr.write('peak first occurred: {:.2f}s\n'.format(min(ptimer.max_t) - ptimer.t0))
   sys.stderr.write('peak last occurred: {:.2f}s\n'.format(max(ptimer.max_t) - ptimer.t0))
   sys.stderr.write('max vms_memory: {:.2f}GB\n'.format(ptimer.max_vms_memory * 1.07E-9))
   sys.stderr.write('max rss_memory: {:.2f}GB\n'.format(ptimer.max_rss_memory * 1.07E-9))
+  sys.stderr.write('memory check interval: %ss\n' % ptimer.interval)
+  sys.stderr.write('return code: %s\n' % ptimer.p.returncode)
