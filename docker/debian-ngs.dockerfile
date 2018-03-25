@@ -1,6 +1,7 @@
 # Docker container for NGS tools mostly from Debian official repo 
-# - apt-get install tabix samtools bedtools
+# - apt-get install tabix bwa bowtie2 tophat samtools bedtools
 # - SRAToolKit 2.9.0 developed by NCBI Genbank/SRA team.
+# - STAR aligner 2.5.4b
 
 # Pull base image.
 FROM debian:stable-slim
@@ -9,14 +10,21 @@ FROM debian:stable-slim
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # clone repo
-WORKDIR /src
+WORKDIR /opt
 ENV SRAVERSION 2.9.0
+ENV STARVERSION 2.5.4b
 RUN apt-get update -y && apt-get install -yq --no-install-recommends \
-    wget tabix bgzip samtools bedtools \
+    tabix bwa bowtie2 tophat samtools bedtools \
+    build-essentials zlib1g-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN wget "http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/${SRAVERSION}/sratoolkit.${SRAVERSION}-ubuntu64.tar.gz" && \
-    tar zxfv sratoolkit.${SRAVERSION}-ubuntu64.tar.gz && \
-    cp -r sratoolkit.${SRAVERSION}-ubuntu64/bin/* /usr/bin
+ADD https://github.com/alexdobin/STAR/archive/${STARVERSION}.tar.gz ./
+ADD http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/${SRAVERSION}/sratoolkit.${SRAVERSION}-ubuntu64.tar.gz ./
+RUN tar zxfv sratoolkit.${SRAVERSION}-ubuntu64.tar.gz
+RUN tar xzvf ${STARVERSION}.tar.gz && \
+    cd STAR-${STARVERSION} && \
+    make STAR 
+
+ENV PATH /opt/STAR-${STARVERSION}/source:/opt/sratoolkit.${SRAVERSION}-ubuntu64/bin:$PATH
 
 # Default command
 WORKDIR /data
