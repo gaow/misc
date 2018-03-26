@@ -9,7 +9,7 @@ FROM debian:stable-slim
 # :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
-# clone repo
+# Install tools
 WORKDIR /opt
 ENV SRAVERSION 2.8.2-1
 ENV STARVERSION 2.5.4b
@@ -19,8 +19,8 @@ RUN apt-get update -y && apt-get install -yq --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 ADD https://github.com/alexdobin/STAR/archive/${STARVERSION}.tar.gz ./
 ADD http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/${SRAVERSION}/sratoolkit.${SRAVERSION}-ubuntu64.tar.gz ./
-RUN tar zxfv sratoolkit.${SRAVERSION}-ubuntu64.tar.gz
-RUN tar xzvf ${STARVERSION}.tar.gz && \
+RUN tar zxvf sratoolkit.${SRAVERSION}-ubuntu64.tar.gz
+RUN tar zxvf ${STARVERSION}.tar.gz && \
     cd STAR-${STARVERSION}/source && \
     make STAR && make clean
 
