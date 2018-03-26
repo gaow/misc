@@ -1,6 +1,6 @@
 # Docker container for NGS tools mostly from Debian official repo 
 # - apt-get install tabix bwa bowtie2 tophat samtools bedtools
-# - SRAToolKit 2.9.0 developed by NCBI Genbank/SRA team.
+# - SRAToolKit 2.8.2-1 developed by NCBI Genbank/SRA team.
 # - STAR aligner 2.5.4b
 
 # Pull base image.
