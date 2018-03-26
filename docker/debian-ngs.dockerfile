@@ -11,7 +11,7 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # clone repo
 WORKDIR /opt
-ENV SRAVERSION 2.8.2-5
+ENV SRAVERSION 2.8.2-1
 ENV STARVERSION 2.5.4b
 RUN apt-get update -y && apt-get install -yq --no-install-recommends \
     tabix bwa bowtie2 tophat samtools bedtools \
