@@ -4,7 +4,7 @@
 # - SRAToolKit 2.8.2-1 developed by NCBI Genbank/SRA team.
 
 # Pull base image.
-FROM debian:testing-slim
+FROM debian:stable-slim
 
 # :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
