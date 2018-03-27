@@ -1,31 +1,43 @@
 # Docker container for NGS tools mostly from Debian official repo 
 # - apt-get install tabix bwa bowtie2 tophat samtools bedtools
+# - github master: STAR, bcftools
 # - SRAToolKit 2.8.2-1 developed by NCBI Genbank/SRA team.
-# - STAR aligner 2.5.4b
 
 # Pull base image.
-FROM debian:stable-slim
+FROM debian:testing-slim
 
 # :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Install tools
-WORKDIR /opt
+WORKDIR /tmp
 ENV SRAVERSION 2.8.2-1
-ENV STARVERSION 2.5.4b
-RUN apt-get update -y && apt-get install -yq --no-install-recommends \
+ENV GITVERSION master
+RUN apt-get update -y \
+    && apt-get install -yq --no-install-recommends \
     tabix bwa bowtie2 tophat samtools bedtools \
-    build-essential zlib1g-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-ADD https://github.com/alexdobin/STAR/archive/${STARVERSION}.tar.gz ./
+    build-essential zlib1g-dev libbz2-dev liblzma-dev \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 ADD http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/${SRAVERSION}/sratoolkit.${SRAVERSION}-ubuntu64.tar.gz ./
-RUN tar zxvf sratoolkit.${SRAVERSION}-ubuntu64.tar.gz
-RUN tar zxvf ${STARVERSION}.tar.gz && \
-    cd STAR-${STARVERSION}/source && \
-    make STAR && make clean
-
-ENV PATH /opt/STAR-${STARVERSION}/source:/opt/sratoolkit.${SRAVERSION}-ubuntu64/bin:$PATH
+ADD https://github.com/alexdobin/STAR/archive/${GITVERSION}.tar.gz STAR.tar.gz
+ADD https://github.com/samtools/htslib/archive/${GITVERSION}.tar.gz htslib.tar.gz
+ADD https://github.com/samtools/bcftools/archive/${GITVERSION}.tar.gz bcftools.tar.gz
+RUN tar zxvf sratoolkit.${SRAVERSION}-ubuntu64.tar.gz \
+    && mv sratoolkit.${SRAVERSION}-ubuntu64/bin/* /usr/local/bin
+RUN tar zxvf STAR.tar.gz \
+    && cd STAR-${GITVERSION}/source \
+    && make STAR \
+    && mv STAR /usr/local/bin
+RUN tar zxvf htslib.tar.gz \
+    && mv htslib-${GITVERSION} htslib \
+    && tar zxvf bcftools.tar.gz \
+    && mv bcftools-${GITVERSION} bcftools \
+    && cd bcftools \
+    && make \
+    && make install
+RUN rm -rf *
 
 # Default command
-WORKDIR /data
 CMD ["bash"]
