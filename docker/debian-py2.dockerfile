@@ -17,7 +17,7 @@ RUN apt-get update -y && apt-get install -yq --no-install-recommends \
 ADD https://repo.continuum.io/miniconda/Miniconda${MCVERSION}-Linux-x86_64.sh ./
 RUN (echo ''; echo yes; echo /opt/miniconda2) | bash Miniconda${MCVERSION}-Linux-x86_64.sh
 RUN /opt/miniconda2/bin/conda install -y numpy pandas scipy scikit-learn numexpr \
-    h5py pytables pysqlite sqlalchemy matplotlib
+    h5py pytables sqlalchemy matplotlib
 RUN /opt/miniconda2/bin/pip install --no-cache-dir simuPOP==1.1.7.1
 RUN rm -rf /data/*
 
