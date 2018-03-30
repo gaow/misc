@@ -7,7 +7,7 @@ FROM gaow/debian-py2:latest
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Install tools
-WORKDIR /tmp
+WORKDIR /data
 ADD http://bioinformatics.org/spower/download/.private/cstatgen.tar.gz ./
 ADD https://github.com/gaow/SEQPower/archive/master.zip spower-master.zip
 ADD https://github.com/gaow/SEQLinkage/archive/master.zip seqlink-master.zip

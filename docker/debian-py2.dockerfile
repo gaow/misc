@@ -8,7 +8,7 @@ FROM debian:jessie-slim
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Install tools
-WORKDIR /data
+WORKDIR /tmp
 ENV MCVERSION 2-4.4.10
 RUN apt-get update -y && apt-get install -yq --no-install-recommends \
     build-essential swig libsqlite3-dev libbz2-dev zlib1g-dev libssl-dev libcurl4-openssl-dev \
@@ -19,7 +19,7 @@ RUN (echo ''; echo yes; echo /opt/miniconda2) | bash Miniconda${MCVERSION}-Linux
 RUN /opt/miniconda2/bin/conda install -y numpy pandas scipy scikit-learn numexpr \
     h5py pytables sqlalchemy matplotlib && /opt/miniconda2/bin/conda clean --all -y
 RUN /opt/miniconda2/bin/pip install --no-cache-dir simuPOP==1.1.7.1
-RUN rm -rf /data/*
+RUN rm -rf /*
 
 ENV PATH /opt/miniconda2/bin:$PATH
 ENV PYTHON_EGG_CACHE /tmp/.python-eggs

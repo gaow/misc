@@ -6,7 +6,7 @@ FROM gaow/debian-ngs:latest
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Install tools
-WORKDIR /tmp
+WORKDIR /data
 ENV VERSION 4.0.3.0
 ## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
 RUN mkdir -p /usr/share/man/man1

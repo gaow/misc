@@ -6,7 +6,7 @@ FROM conda/miniconda2:latest
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Install tools
-WORKDIR /tmp
+WORKDIR /data
 ENV VERSION master
 ADD https://github.com/bmvdgeijn/WASP/archive/${VERSION}.zip WASP.zip
 RUN apt-get -qq update \

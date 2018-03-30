@@ -10,7 +10,7 @@ FROM debian:stable-slim
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Install tools
-WORKDIR /tmp
+WORKDIR /data
 ENV SRAVERSION 2.8.2-1
 ENV GITVERSION master
 RUN apt-get update -y \
