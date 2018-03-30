@@ -14,12 +14,9 @@ WORKDIR /data
 ENV SRAVERSION 2.8.2-1
 ENV GITVERSION master
 RUN apt-get update -y \
-    && apt-get install -yq --no-install-recommends \
+    && apt-get install -qq -y --no-install-recommends \
     tabix bwa bowtie2 tophat samtools bedtools \
-    build-essential zlib1g-dev libbz2-dev liblzma-dev \
-    && apt-get autoremove -y \
-    && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    build-essential zlib1g-dev libbz2-dev liblzma-dev
 ADD http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/${SRAVERSION}/sratoolkit.${SRAVERSION}-ubuntu64.tar.gz ./
 ADD https://github.com/alexdobin/STAR/archive/${GITVERSION}.tar.gz STAR.tar.gz
 ADD https://github.com/samtools/htslib/archive/${GITVERSION}.tar.gz htslib.tar.gz
@@ -37,7 +34,11 @@ RUN tar zxvf htslib.tar.gz \
     && cd bcftools \
     && make \
     && make install
-RUN rm -rf *
+RUN apt-get -qq -y remove build-essential zlib1g-dev libbz2-dev liblzma-dev \
+    && apt-get -qq -y autoremove \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log \
+    && rm -rf *
 
 # Default command
 CMD ["bash"]
