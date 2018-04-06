@@ -1,7 +1,7 @@
 To create and push a docker image to dockerhub.com:
 
 ```
-cat Dockerfile | docker build --no-cache -t <user>/<repo>:tag - # eg, -t gaow/debian-ngs:latest
+docker build -t <user>/<repo>:tag -f <docker file> .
 docker images
 docker push <user>/<repo>
 ```
