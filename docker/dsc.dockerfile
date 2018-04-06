@@ -29,11 +29,11 @@ RUN /opt/miniconda3/bin/conda install -y -c conda-forge fasteners python-xxhash 
     && /opt/miniconda3/bin/conda install numpy pandas sqlalchemy msgpack-python sympy numexpr h5py \
                 psutil networkx pydotplus pyyaml tqdm pygments pexpect \
     && /opt/miniconda3/bin/conda clean --all -y
-RUN /opt/miniconda3/bin/pip install sos sos-pbs sos-notebook \
+RUN /opt/miniconda3/bin/pip install --no-cache-dir sos sos-pbs sos-notebook \
     && /opt/miniconda3/bin/python -m sos_notebook.install
 RUN tar zxf dsc.tar.gz \
     && cd dsc-${VERSION} \
-    && /opt/miniconda3/bin/python setup.py install --single-version-externally-managed --root /
+    && /opt/miniconda3/bin/pip install -U --upgrade-strategy only-if-needed --no-cache-dir .
 RUN install2.r --error devtools testthat
 RUN Rscript -e 'devtools::install_github("stephenslab/dsc",subdir = "dscrutils",force = TRUE)'
 RUN rm -rf *
