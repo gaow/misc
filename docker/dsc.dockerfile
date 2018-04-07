@@ -20,6 +20,7 @@ RUN apt-get -qq update \
     libssh2-1-dev \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
+RUN install2.r --error devtools testthat repr IRdisplay evaluate crayon pbdZMQ uuid digest
 ADD https://repo.continuum.io/miniconda/Miniconda3-4.4.10-Linux-x86_64.sh miniconda.sh
 RUN /bin/bash miniconda.sh -b -p /opt/miniconda3 && \
     /opt/miniconda3/bin/conda clean -tipsy && \
@@ -29,15 +30,16 @@ RUN /opt/miniconda3/bin/conda install -y -c conda-forge fasteners python-xxhash 
     && /opt/miniconda3/bin/conda install numpy pandas sqlalchemy msgpack-python sympy numexpr h5py \
                 psutil networkx pydotplus pyyaml tqdm pygments pexpect \
     && /opt/miniconda3/bin/conda clean --all -y
-RUN /opt/miniconda3/bin/pip install --no-cache-dir sos sos-pbs sos-notebook \
+RUN /opt/miniconda3/bin/pip install --no-cache-dir sos sos-pbs sos-bash sos-notebook sos-r jupyter-client bash_kernel \
+    && /opt/miniconda3/bin/python -m bash_kernel.install \
     && /opt/miniconda3/bin/python -m sos_notebook.install
 RUN tar zxf dsc.tar.gz \
     && cd dsc-${VERSION} \
     && /opt/miniconda3/bin/pip install -U --upgrade-strategy only-if-needed --no-cache-dir .
-RUN install2.r --error devtools testthat
-RUN Rscript -e 'devtools::install_github("stephenslab/dsc",subdir = "dscrutils",force = TRUE)'
+ENV PATH /opt/miniconda3/bin:$PATH
+RUN Rscript -e 'devtools::install_github("IRkernel/IRkernel"); IRkernel::installspec()' \
+    && Rscript -e 'devtools::install_github("stephenslab/dsc",subdir = "dscrutils",force = TRUE)'
 RUN rm -rf *
 
-ENV PATH /opt/miniconda3/bin:$PATH
 # Default command
 CMD ["bash"]
