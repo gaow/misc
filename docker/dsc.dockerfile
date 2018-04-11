@@ -30,7 +30,7 @@ RUN /opt/miniconda3/bin/conda install -y -c conda-forge fasteners python-xxhash 
     && /opt/miniconda3/bin/conda install numpy pandas sqlalchemy msgpack-python sympy numexpr h5py \
                 psutil networkx pydotplus pyyaml tqdm pygments pexpect \
     && /opt/miniconda3/bin/conda clean --all -y
-RUN /opt/miniconda3/bin/pip install --no-cache-dir sos sos-pbs sos-bash sos-notebook sos-r jupyter-client bash_kernel \
+RUN /opt/miniconda3/bin/pip install --no-cache-dir sos sos-pbs sos-bash sos-notebook sos-r jupyter-client jupyter_contrib_nbextensions bash_kernel \
     && /opt/miniconda3/bin/python -m bash_kernel.install \
     && /opt/miniconda3/bin/python -m sos_notebook.install
 RUN tar zxf dsc.tar.gz \
