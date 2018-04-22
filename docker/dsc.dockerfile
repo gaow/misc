@@ -12,9 +12,9 @@ ENV VERSION master
 ADD https://github.com/stephenslab/dsc/archive/${VERSION}.tar.gz dsc.tar.gz
 RUN tar zxf dsc.tar.gz \
     && cd dsc-${VERSION} \
-    && /opt/miniconda3/bin/pip install -U --upgrade-strategy only-if-needed --no-cache-dir .
-RUN Rscript -e 'devtools::install_github("stephenslab/dsc", subdir="dscrutils", force=TRUE)'
-RUN rm -rf *
+    && pip install -U --upgrade-strategy only-if-needed --no-cache-dir . \
+    && Rscript -e 'devtools::install_github("stephenslab/dsc", subdir="dscrutils", force=TRUE)' \
+    && rm -rf /tmp/* $HOME/.cache
 
 # Default command
 CMD ["bash"]
