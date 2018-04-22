@@ -49,7 +49,7 @@ ADD https://raw.githubusercontent.com/gaow/misc/master/R/install.R /opt/microsof
 RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.file.method = "libcurl")' \
     > /opt/microsoft/ropen/$MRO_VERSION/lib64/R/etc/Rprofile.site \
     && chmod +x /opt/microsoft/ropen/$MRO_VERSION/lib64/R/bin/install.R && sync \
-    && install.R devtools testthat ggplot2 && rm -rf /tmp/*
+    && install.R curl httr devtools testthat ggplot2 && rm -rf /tmp/*
 
 # Default command
 CMD ["bash"]

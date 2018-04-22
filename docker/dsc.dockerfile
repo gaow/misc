@@ -9,8 +9,8 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 # Install tools
 WORKDIR /tmp
 ENV VERSION master
-ADD https://github.com/stephenslab/dsc/archive/${VERSION}.tar.gz dsc.tar.gz
-RUN tar zxf dsc.tar.gz \
+RUN curl https://github.com/stephenslab/dsc/archive/${VERSION}.tar.gz -o dsc.tar.gz \
+    && tar zxf dsc.tar.gz \
     && cd dsc-${VERSION} \
     && pip install -U --upgrade-strategy only-if-needed --no-cache-dir . \
     && Rscript -e 'devtools::install_github("stephenslab/dsc", subdir="dscrutils", force=TRUE)' \
