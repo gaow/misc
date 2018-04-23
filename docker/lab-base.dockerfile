@@ -18,6 +18,7 @@ ENV CPLUS_INCLUDE_PATH /opt/microsoft/ropen/$MRO_VERSION/lib64/R/include:$CPLUS_
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     curl \
+    unzip \
     ca-certificates \
     build-essential \
     zlib1g-dev \

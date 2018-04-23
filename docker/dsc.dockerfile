@@ -9,7 +9,7 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 # Install tools
 WORKDIR /tmp
 ENV VERSION master
-RUN curl https://github.com/stephenslab/dsc/archive/${VERSION}.tar.gz -o dsc.tar.gz \
+RUN curl -L https://github.com/stephenslab/dsc/archive/${VERSION}.tar.gz -o dsc.tar.gz \
     && tar zxf dsc.tar.gz \
     && cd dsc-${VERSION} \
     && pip install -U --upgrade-strategy only-if-needed --no-cache-dir . \
