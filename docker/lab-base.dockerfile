@@ -21,6 +21,7 @@ RUN apt-get update \
     unzip \
     ca-certificates \
     build-essential \
+    libgfortran-4.9-dev \
     zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
@@ -29,6 +30,7 @@ RUN apt-get update \
     libsqlite3-dev \
     libxml2-dev \
     libssh2-1-dev \
+    libc6-dev \
     libgomp1 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
