@@ -21,7 +21,7 @@ RUN apt-get update \
     unzip \
     ca-certificates \
     build-essential \
-    libgfortran-4.9-dev \
+    libgfortran-6-dev \
     zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
