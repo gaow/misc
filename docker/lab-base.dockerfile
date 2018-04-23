@@ -1,6 +1,6 @@
 # Docker container for R and Python
 
-FROM debian:stable
+FROM debian:stretch
 
 # :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
@@ -41,8 +41,8 @@ RUN curl https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/microsoft-r
     && tar -xzf MRO.tar.gz && cd microsoft-r-open && ./install.sh -a -u && rm -rf /tmp/*
 
 # Install Python packages
-RUN curl https://repo.continuum.io/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -o MC.sh \
-    && /bin/bash MC.sh -b -p /opt/miniconda3 \
+RUN curl https://repo.continuum.io/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -o MCON.sh \
+    && /bin/bash MCON.sh -b -p /opt/miniconda3 \
     && ln -s /opt/miniconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
     && conda install mkl numpy scipy pandas matplotlib psutil \ 
     && conda clean --all -tipsy && rm -rf /tmp/* $HOME/.cache
@@ -57,9 +57,9 @@ RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.fil
 
 # Add a user called "docker"
 RUN useradd docker \
-	&& mkdir /home/docker \
-	&& chown docker:docker /home/docker \
-	&& addgroup docker staff
+    && mkdir /home/docker \
+    && chown docker:docker /home/docker \
+    && addgroup docker staff
 
 # Default command
 CMD ["bash"]
