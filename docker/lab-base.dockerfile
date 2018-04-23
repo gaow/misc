@@ -1,6 +1,6 @@
 # Docker container for R and Python
 
-FROM debian:stretch
+FROM debian:stretch-slim
 
 # :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
