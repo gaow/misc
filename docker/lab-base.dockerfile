@@ -55,5 +55,11 @@ RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.fil
     && chmod +x /opt/microsoft/ropen/$MRO_VERSION/lib64/R/bin/install.R && sync \
     && install.R curl httr devtools testthat ggplot2 && rm -rf /tmp/*
 
+# Add a user called "docker"
+RUN useradd docker \
+	&& mkdir /home/docker \
+	&& chown docker:docker /home/docker \
+	&& addgroup docker staff
+
 # Default command
 CMD ["bash"]
