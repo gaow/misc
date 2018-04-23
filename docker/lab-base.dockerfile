@@ -7,7 +7,7 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Setup environment
 WORKDIR /tmp
-ENV MRO_VERSION 3.4.2
+ENV MRO_VERSION 3.4.4
 ENV MINICONDA_VERSION 4.4.10
 ENV PATH /opt/miniconda3/bin:/opt/microsoft/ropen/$MRO_VERSION/lib64/R/bin:$PATH
 ENV LD_LIBRARY_PATH /opt/microsoft/ropen/$MRO_VERSION/lib64/R/lib:$LD_LIBRARY_PATH
