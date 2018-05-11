@@ -2,7 +2,9 @@ FROM debian:stable-slim
 
 WORKDIR /tmp
 
-RUN apt-get update && apt-get install -y r-base r-base-dev unzip curl ca-certificates && apt-get clean
+RUN apt-get update \
+    && apt-get install -y libatlas3-base r-base r-base-dev unzip curl ca-certificates \
+    && apt-get clean
 RUN curl -L https://github.com/stephenslab/susieR/archive/master.zip -o susie.zip \
 	&& unzip susie.zip && cd susieR-master && R CMD build . && R CMD INSTALL susieR_*.tar.gz \
 	&& rm -rf /tmp/*

@@ -33,6 +33,7 @@ RUN apt-get update \
     libssh2-1-dev \
     libc6-dev \
     libgomp1 \
+    libatlas3-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
