@@ -1,13 +1,13 @@
 # Docker container for R and Python
 
-FROM debian:stable
+FROM debian:stretch-slim
 
 # :)
 MAINTAINER Gao Wang, gaow@uchicago.edu
 
 # Setup environment
 WORKDIR /tmp
-ENV MRO_VERSION 3.4.2
+ENV MRO_VERSION 3.4.4
 ENV MINICONDA_VERSION 4.4.10
 ENV PATH /opt/miniconda3/bin:/opt/microsoft/ropen/$MRO_VERSION/lib64/R/bin:$PATH
 ENV LD_LIBRARY_PATH /opt/microsoft/ropen/$MRO_VERSION/lib64/R/lib:$LD_LIBRARY_PATH
@@ -33,6 +33,7 @@ RUN apt-get update \
     libssh2-1-dev \
     libc6-dev \
     libgomp1 \
+    libatlas3-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
@@ -41,8 +42,8 @@ RUN curl https://mran.blob.core.windows.net/install/mro/$MRO_VERSION/microsoft-r
     && tar -xzf MRO.tar.gz && cd microsoft-r-open && ./install.sh -a -u && rm -rf /tmp/*
 
 # Install Python packages
-RUN curl https://repo.continuum.io/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -o MC.sh \
-    && /bin/bash MC.sh -b -p /opt/miniconda3 \
+RUN curl https://repo.continuum.io/miniconda/Miniconda3-$MINICONDA_VERSION-Linux-x86_64.sh -o MCON.sh \
+    && /bin/bash MCON.sh -b -p /opt/miniconda3 \
     && ln -s /opt/miniconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
     && conda install mkl numpy scipy pandas matplotlib psutil \ 
     && conda clean --all -tipsy && rm -rf /tmp/* $HOME/.cache
@@ -55,11 +56,12 @@ RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.fil
     && chmod +x /opt/microsoft/ropen/$MRO_VERSION/lib64/R/bin/install.R && sync \
     && install.R curl httr devtools testthat ggplot2 && rm -rf /tmp/*
 
-# Add a user called "docker"
-RUN useradd docker \
-	&& mkdir /home/docker \
-	&& chown docker:docker /home/docker \
-	&& addgroup docker staff
+# # Add a user called "docker" with given IDs and add it to staff group
+# RUN groupadd --gid 1000 docker \
+#     && useradd --uid 1000 --gid 1000 \
+#        --create-home --shell /bin/bash \
+#        docker \
+#     && addgroup docker staff
 
 # Default command
 CMD ["bash"]

@@ -16,14 +16,15 @@ RUN apt-get update -y \
     build-essential zlib1g-dev libbz2-dev liblzma-dev \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
-ADD https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip ./
-ADD https://raw.githubusercontent.com/broadinstitute/gatk/master/scripts/docker/gatkbase/install_R_packages.R ./
-RUN unzip gatk-${VERSION}.zip \
+ADD https://raw.githubusercontent.com/broadinstitute/gatk/master/scripts/docker/gatkbase/install_R_packages.R /opt
+RUN curl -L \
+    https://github.com/broadinstitute/gatk/releases/download/${VERSION}/gatk-${VERSION}.zip -o gatk.zip \
+    && unzip gatk.zip \
     && mv gatk-${VERSION} /opt \
     && ln -s /opt/gatk-${VERSION}/gatk /usr/local/bin/gatk \
-    && Rscript install_R_packages.R
+    && Rscript /opt/install_R_packages.R \
+    && rm -rf /tmp/*
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
-RUN rm -rf *
 
 # Default command
 CMD ["bash"]
