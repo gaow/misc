@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys, os
 
 def vcf2bed(fin, fout):
@@ -42,12 +42,12 @@ def liftBed(fin, fout, funlifted, chain_file, resume):
     return True
 
 def reverse_complement(x):
-    reverse_complement_map = string.maketrans('ATGC', 'TACG')
+    reverse_complement_map = str.maketrans('ATGC', 'TACG')
     return x.translate(reverse_complement_map)
 
 def liftVCF(fin):
     import gzip
-    with gzip.open(fin) as f:
+    with gzip.open(fin, 'rt') as f:
         for line in f:
             if line.startswith('#'):
                 print(line.strip())
