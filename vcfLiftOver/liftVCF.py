@@ -38,7 +38,7 @@ def liftBed(fin, fout, funlifted, chain_file, resume):
     for ln in open(params['NEW']):
         if len(ln) == 0 or ln[0] == '#':continue
         x = ln.strip().split()
-        LIFTED_SET[x[3]] = (x[0][3:], x[2], x[-1])
+        LIFTED_SET[x[3]] = (x[0], x[2], x[-1])
     return True
 
 def reverse_complement(x):
