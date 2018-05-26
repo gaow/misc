@@ -61,6 +61,7 @@ def liftVCF(fin):
                     print ('\t'.join([new_cord[0], new_cord[1], record[2], ref, alt] + record[5:]))
                 except KeyError:
                     pass
+    return True
 
 def makesure(result, succ_msg, fail_msg = "ERROR"):
     if result:
