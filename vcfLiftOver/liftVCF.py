@@ -34,10 +34,11 @@ def liftBed(fin, fout, funlifted, chain_file, resume):
     cmd = cmd.substitute(params)
     if not(os.path.isfile(fout) and resume):
         os.system(cmd)
-    # record lifted/unliftd ID and strand
+    # record lifted ID and strand
     for ln in open(params['NEW']):
         if len(ln) == 0 or ln[0] == '#':continue
         x = ln.strip().split()
+        # use 1-based
         LIFTED_SET[x[3]] = (x[0], x[2], x[-1])
     return True
 
