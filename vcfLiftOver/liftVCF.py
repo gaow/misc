@@ -35,12 +35,10 @@ def liftBed(fin, fout, funlifted, chain_file, resume):
     if not(os.path.isfile(fout) and resume):
         os.system(cmd)
     # record lifted/unliftd ID and strand
-    def get_set(key):
-        elements = [ln.strip().split() for ln in open(params[key]) if not (len(ln) == 0 or ln[0] == '#')]
-        # only keep 1-based
-        return dict([(x[3], (x[0], x[2], x[-1])) for x in elements])
-    # UNLIFTED_SET = get_set('UNLIFTED')
-    LIFTED_SET = get_set('NEW')
+    for ln in open(params['NEW']):
+        if len(ln) == 0 or ln[0] == '#':continue
+        x = ln.strip().split()
+        LIFTED_SET[x[3]] = (x[0][3:], x[2], x[-1])
     return True
 
 def reverse_complement(x):
