@@ -56,6 +56,11 @@ RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.fil
     && chmod +x /opt/microsoft/ropen/$MRO_VERSION/lib64/R/bin/install.R && sync \
     && install.R curl httr devtools testthat ggplot2 && rm -rf /tmp/*
 
+# https://stat.ethz.ch/R-manual/R-devel/library/base/html/Startup.html
+# If you want ‘~/.Renviron’ or ‘~/.Rprofile’ to be ignored by child R processes (such as those run by R CMD check and R CMD build), set the appropriate environment variable R_ENVIRON_USER or R_PROFILE_USER to (if possible, which it is not on Windows) "" or to the name of a non-existent file.
+ENV R_ENVIRON_USER ""
+ENV R_PROFILE_USER ""
+
 # # Add a user called "docker" with given IDs and add it to staff group
 # RUN groupadd --gid 1000 docker \
 #     && useradd --uid 1000 --gid 1000 \
