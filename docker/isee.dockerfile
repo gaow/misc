@@ -19,7 +19,7 @@ CMD ["bash"]
 
 # 1. set an alias:
 # alias isee-docker='docker run --rm --security-opt label:disable -t '\
-# '-P -h MASH -w $PWD -v $HOME:/home/$USER -v /tmp:/tmp -v $PWD:$PWD '\
+# '-P -h MASH -w $PWD -v /tmp:/tmp -v $PWD:$PWD '\
 # '-u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/isee-lv'
 
 # 2. edit `isee_all.R` replacing `slasso.so` with `/usr/local/lib/slasso.so`
