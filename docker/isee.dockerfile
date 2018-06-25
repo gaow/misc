@@ -7,6 +7,9 @@ WORKDIR /tmp
 RUN apt-get update \
     && apt-get install -y libatlas3-base r-base r-base-dev unzip curl ca-certificates \
     && apt-get clean
+RUN apt-get update \
+    && apt-get install -y r-cran-igraph \
+    && apt-get clean
 RUN curl -L http://bcf.usc.edu/~jinchilv/publications/software/isee.zip -o isee.zip \
 	&& unzip isee.zip && mv isee/slasso.so /usr/local/lib && rm -rf /tmp/*
 
