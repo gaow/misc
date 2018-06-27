@@ -12,6 +12,7 @@ RUN apt-get update \
     && apt-get clean
 RUN R --slave -e "install.packages('pkgdown')"
 RUN R --slave -e "devtools::install_github('stephenslab/susieR')"
+RUN R --slave -e "install.packages(c('genlasso', 'glmnet'))"
 
 ENV R_ENVIRON_USER ""
 ENV R_PROFILE_USER ""
