@@ -1,17 +1,22 @@
-FROM debian:stable-slim
+# For susie
+
+FROM debian:sid-slim
 
 WORKDIR /tmp
 
 RUN apt-get update \
-    && apt-get install -y libatlas3-base r-base r-base-dev unzip curl ca-certificates \
+    && apt-get install -y r-base r-base-dev pandoc \
     && apt-get clean
-RUN curl -L https://github.com/stephenslab/susieR/archive/master.zip -o susie.zip \
-	&& unzip susie.zip && cd susieR-master && R CMD build . && R CMD INSTALL susieR_*.tar.gz \
-	&& rm -rf /tmp/*
-RUN curl -L https://github.com/stephenslab/susieR/files/1992536/susie_issue6.tar.gz -o susie_issue6.tar.gz \
-	&& tar zxvf susie_issue6.tar.gz && mv susie_issue6.rds /opt && rm -rf /tmp/*
+RUN apt-get update \
+    && apt-get install -y libatlas3-base libssl-dev libcurl4-openssl-dev libxml2-dev curl \
+    && apt-get clean
+RUN R --slave -e "install.packages('pkgdown')"
+RUN R --slave -e "devtools::install_github('stephenslab/susieR')"
+
+ENV R_ENVIRON_USER ""
+ENV R_PROFILE_USER ""
 
 CMD ["bash"]
 
-# to run the test:
-# docker run --rm gaow/susie Rscript -e "attach(readRDS('/opt/susie_issue6.rds')); res = susieR::susie(X,Y); print(names(res)); print(sessionInfo())"
+# To use it:
+# docker run --rm --security-opt label:disable -t -P -w $PWD -v /tmp:/tmp -v $PWD:$PWD -u $UID:${GROUPS[0]} -e HOME=/home/$USER -e USER=$USER gaow/susie R --slave -e "pkgdown::build_site()"
