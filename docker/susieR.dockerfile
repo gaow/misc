@@ -4,7 +4,7 @@ FROM debian:sid-slim
 
 WORKDIR /tmp
 
-# susieR related
+# R related
 RUN apt-get update \
     && apt-get install -y r-base r-base-dev pandoc \
     && apt-get clean
@@ -12,7 +12,6 @@ RUN apt-get update \
     && apt-get install -y libatlas3-base libssl-dev libcurl4-openssl-dev libxml2-dev curl \
     && apt-get clean
 RUN R --slave -e "install.packages('pkgdown')"
-RUN R --slave -e "devtools::install_github('stephenslab/susieR')"
 RUN R --slave -e "install.packages(c('genlasso', 'glmnet'))"
 
 # Finemapping related
@@ -48,6 +47,9 @@ RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/cod
 
 RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/code/dap-g.py -o /usr/local/bin/dap-g.py \
     && chmod +x /usr/local/bin/dap-g.py
+
+# susieR update
+RUN R --slave -e "devtools::install_github('stephenslab/susieR')"
 
 ENV R_ENVIRON_USER ""
 ENV R_PROFILE_USER ""
