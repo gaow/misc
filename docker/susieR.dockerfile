@@ -12,23 +12,30 @@ RUN apt-get update \
     && apt-get install -y libatlas3-base libssl-dev libcurl4-openssl-dev libxml2-dev curl \
     && apt-get clean
 RUN R --slave -e "install.packages('pkgdown')"
-RUN R --slave -e "install.packages(c('genlasso', 'glmnet'))"
-
-# Finemapping related
 RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr')) if (!require(p, character.only=TRUE)) install.packages(p)"
+
+# Finemapping /large scale regression related
+RUN R --slave -e "install.packages('glmnet')"
+RUN R --slave -e "devtools::install_github('glmgen/genlasso')"
+RUN R --slave -e "devtools::install_github('hazimehh/L0Learn')"
+RUN R --slave -e "install.packages('matrixStats')"
+RUN R --slave -e "install.packages(c('reshape', 'ggplot2'))"
 
 RUN apt-get update \
     && apt-get install -y libgsl-dev libboost-iostreams-dev \
     && apt-get clean
 
-RUN git clone https://github.com/fhormoz/caviar.git && cd caviar/CAVIAR-C++ && make \
+RUN curl -L https://github.com/fhormoz/caviar/archive/master.zip -o master.zip \
+    && unzip master.zip && cd caviar-master/CAVIAR-C++ && make \
     && mv CAVIAR eCAVIAR mupCAVIAR setCAVIAR /usr/local/bin && rm -rf /tmp/*
 
-RUN git clone https://github.com/xqwen/dap.git && cd dap/dap_src && make && mv dap-g /usr/local/bin && rm -rf /tmp/*
+RUN curl -L https://github.com/xqwen/dap/archive/master.zip -o master.zip \
+    && unzip master.zip && cd dap-master/dap_src && make && mv dap-g /usr/local/bin && rm -rf /tmp/*
 
-RUN curl -L http://www.christianbenner.com/finemap_v1.1_x86_64.tgz -o finemap.tgz \
-    && tar zxvf finemap.tgz && mv finemap_v1.1_x86_64/finemap_v1.1_x86_64 /usr/local/bin/finemap \
-    && chmod +x /usr/local/bin/finemap && rm -rf /tmp/*
+# Cannot bundle FINEMAP due to license issues
+#RUN curl -L http://www.christianbenner.com/finemap_v1.1_x86_64.tgz -o finemap.tgz \
+#    && tar zxvf finemap.tgz && mv finemap_v1.1_x86_64/finemap_v1.1_x86_64 /usr/local/bin/finemap \
+#    && chmod +x /usr/local/bin/finemap && rm -rf /tmp/*
 
 # DSC related
 RUN apt-get update \
@@ -48,8 +55,10 @@ RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/cod
 RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/code/dap-g.py -o /usr/local/bin/dap-g.py \
     && chmod +x /usr/local/bin/dap-g.py
 
+
 # susieR update
-RUN R --slave -e "devtools::install_github('stephenslab/susieR')"
+ARG DUMMY=unknown
+RUN DUMMY=${DUMMY} R --slave -e "devtools::install_github('stephenslab/susieR')"
 
 ENV R_ENVIRON_USER ""
 ENV R_PROFILE_USER ""

@@ -13,3 +13,9 @@ docker run --rm --security-opt label:disable \
        -t -P -w $PWD -u $UID:${GROUPS[0]} \
        <user>/<repo> <command>
 ```
+
+To add a dummy build arg to docker file to force triggering rerun:
+
+```
+docker build --build-arg DUMMY=`date +%s` ...
+```
