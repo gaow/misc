@@ -16,7 +16,7 @@ ENV GITVERSION master
 RUN apt-get update -y \
     && apt-get install -qq -y --no-install-recommends \
     curl ca-certificates \
-    tabix bwa bowtie2 tophat samtools bedtools \
+    fastqc tabix bwa bowtie2 tophat samtools bedtools \
     build-essential zlib1g-dev libbz2-dev liblzma-dev \
     && apt-get -qq -y autoremove \
     && apt-get autoclean \
