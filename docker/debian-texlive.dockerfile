@@ -10,6 +10,7 @@ MAINTAINER Gao Wang, gaow@uchicago.edu
 WORKDIR /tmp
 RUN apt-get update -y \
     && apt-get install -qq -y texlive-full python-pygments pandoc pandoc-citeproc \
+	fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei \
     && apt-get -qq -y autoremove \
     && apt-get autoclean \
     && rm -rf * /var/lib/apt/lists/* /var/log/dpkg.log
