@@ -1,4 +1,4 @@
-# Docker container for R and Python
+# Docker container for stress testing
 
 FROM debian:stretch-slim
 
