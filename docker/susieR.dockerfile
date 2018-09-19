@@ -11,15 +11,6 @@ RUN apt-get update \
 RUN apt-get update \
     && apt-get install -y libatlas3-base libssl-dev libcurl4-openssl-dev libxml2-dev curl \
     && apt-get clean
-RUN R --slave -e "install.packages('pkgdown')"
-RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr')) if (!require(p, character.only=TRUE)) install.packages(p)"
-
-# Finemapping /large scale regression related
-RUN R --slave -e "install.packages('glmnet')"
-RUN R --slave -e "devtools::install_github('glmgen/genlasso')"
-RUN R --slave -e "devtools::install_github('hazimehh/L0Learn')"
-RUN R --slave -e "install.packages('matrixStats')"
-RUN R --slave -e "install.packages(c('reshape', 'ggplot2'))"
 
 RUN apt-get update \
     && apt-get install -y libgsl-dev libboost-iostreams-dev \
@@ -37,14 +28,6 @@ RUN curl -L https://github.com/xqwen/dap/archive/master.zip -o master.zip \
 #    && tar zxvf finemap.tgz && mv finemap_v1.1_x86_64/finemap_v1.1_x86_64 /usr/local/bin/finemap \
 #    && chmod +x /usr/local/bin/finemap && rm -rf /tmp/*
 
-# DSC related
-RUN apt-get update \
-    && apt-get install -y python3-pip \
-    && apt-get clean
-
-RUN pip3 install sos sos-notebook dsc rpy2==2.9.4 tzlocal --no-cache-dir
-RUN R --slave -e "devtools::install_github('stephenslab/dsc',subdir = 'dscrutils')"
-
 # Supporting files
 RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/code/finemap.R -o /usr/local/bin/finemap.R \
     && chmod +x /usr/local/bin/finemap.R
@@ -55,6 +38,24 @@ RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/cod
 RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/code/dap-g.py -o /usr/local/bin/dap-g.py \
     && chmod +x /usr/local/bin/dap-g.py
 
+RUN apt-get update \
+    && apt-get install -y python3-pip libfreetype6-dev pkg-config \
+    && apt-get clean
+
+RUN R --slave -e "install.packages(c('pkgdown', 'devtools'))"
+RUN R --slave -e "install.packages(c('reshape', 'ggplot2'))"
+RUN R --slave -e "install.packages(c('profvis', 'microbenchmark'))"
+RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr')) if (!require(p, character.only=TRUE)) install.packages(p)"
+ 
+# Finemapping /large scale regression related
+RUN R --slave -e "install.packages('glmnet')"
+RUN R --slave -e "devtools::install_github('glmgen/genlasso')"
+RUN R --slave -e "devtools::install_github('hazimehh/L0Learn')"
+RUN R --slave -e "install.packages('matrixStats')"
+
+# DSC update
+RUN pip3 install sos sos-notebook dsc rpy2==2.9.4 tzlocal --no-cache-dir
+RUN R --slave -e "devtools::install_github('stephenslab/dsc',subdir = 'dscrutils')"
 
 # susieR update
 ARG DUMMY=unknown
