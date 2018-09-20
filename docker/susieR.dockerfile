@@ -56,6 +56,8 @@ RUN R --slave -e "install.packages('matrixStats')"
 # DSC update
 RUN pip3 install sos sos-notebook dsc rpy2==2.9.4 tzlocal --no-cache-dir
 RUN R --slave -e "devtools::install_github('stephenslab/dsc',subdir = 'dscrutils')"
+RUN R --slave -e "devtools::install_github('r-lib/testthat')"
+RUN R --slave -e "devtools::install_github('r-lib/devtools')"
 
 # susieR update
 ARG DUMMY=unknown
