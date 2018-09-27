@@ -10,25 +10,25 @@
 
 ipnport=$(shuf -i8000-9999 -n1)
 ipnip=$(hostname -i)
-login=midway.rcc.uchicago.edu
+login=midway2.rcc.uchicago.edu
 
 # These will be written to `nb-log-%J.out`
-echo -e "\n\n   Copy/Paste this in your local terminal to ssh tunnel with
-remote   "
+echo -e "\n\n   Copy & paste the following to your local computer's terminal to tunnel 
+to the remote server:\n"
 echo        "   \`\`\`bash
 "
 echo        "   ssh -N -L $ipnport:$ipnip:$ipnport $USER@$login -v
 "
 echo        "   \`\`\`
 "
-echo -e "\n\n   Then open a browser on your local machine to the following
-address "
+echo -e "\n\n   Then use a web browser on your local computer to open the following
+address:\n "
 echo        "   \`\`\`google-chrome
 "
 echo        "   localhost:$ipnport
 "
 echo -e     "   \`\`\`\n\n"
-echo        " You may be asked to provide a token. Please find it in the `nb-log-*.err` file
+echo        "   You may be asked to provide a token (a string of 48 letters + digits). Please find it in the \`nb-log-*.err\` file.
 "
 sleep 1
 # Start jupyter
