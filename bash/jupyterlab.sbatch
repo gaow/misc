@@ -13,7 +13,7 @@ ipnip=$(hostname -i)
 login=midway2.rcc.uchicago.edu
 
 # These will be written to `nb-log-%J.out`
-echo -e "\n\n   Copy & paste the following to your local computer's terminal to tunnel 
+echo -e "\n\n   Copy & paste the following to your local computer's terminal to tunnel
 to the remote server:\n"
 echo        "   \`\`\`bash
 "
@@ -28,7 +28,8 @@ echo        "   \`\`\`google-chrome
 echo        "   localhost:$ipnport
 "
 echo -e     "   \`\`\`\n\n"
-echo        "   You may be asked to provide a token (a string of 48 letters + digits). Please find it in the \`nb-log-*.err\` file.
+echo        "   You may be asked to provide a token (a string of 48 letters + digits).
+Please find it in the \`nb-log-*.err\` file under your current directory.
 "
 sleep 1
 # Start jupyter

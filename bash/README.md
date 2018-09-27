@@ -19,7 +19,8 @@ address:
  
    localhost:9279
 
-   You may be asked to provide a token (a string of 48 letters + digits). Please find it in the `nb-log-*.err` file
+   You may be asked to provide a token (a string of 48 letters + digits). 
+Please find it in the `nb-log-*.err` file under your current directory.
 ```
 
 Just follow the prompts: run `ssh -N -L ...` command on your **local computer**, then open a browser on your **local computer** and visit `localhost: ...`.
