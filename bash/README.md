@@ -12,20 +12,12 @@ Tested on UChicago RCC.
    Copy & paste the following to your local computer's terminal to tunnel 
 to the remote server:
 
-   ```bash
-
    ssh -N -L 9279:10.50.221.17:9279 <your username>@<the remote url> -v
-
-   ```
 
    Then use a web browser on your local computer to open the following
 address:
  
-   ```google-chrome
-
    localhost:9279
-
-   ```
 
    You may be asked to provide a token (a string of 48 letters + digits). Please find it in the `nb-log-*.err` file
 
