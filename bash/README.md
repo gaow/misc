@@ -20,8 +20,8 @@ address:
    localhost:9279
 
    You may be asked to provide a token (a string of 48 letters + digits). Please find it in the `nb-log-*.err` file
-
 ```
 
 Just follow the prompts: run `ssh -N -L ...` command on your **local computer**, then open a browser on your **local computer** and visit `localhost: ...`.
+
 4. You will be asked for a "token". You should see a file called `nb-log-*.err`. It will contain the information. Copy & paste it to the dialog box it ask for the token, hit "enter", you should be directed to the Jupyter Lab server you created a moment ago.
