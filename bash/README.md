@@ -4,7 +4,7 @@
 
 Tested on UChicago RCC. 
 
-1. Edit `jupyterlab.sbatch` to update the JupyterLab session resource. Current setup is that the server is on partition `broadwl`, is good for 24 hours, uses one node, 1 CPU and 2G memory.
+1. Edit `jupyterlab.sbatch` to update the JupyterLab session resource. Current setup is that the server will be created on partition `broadwl`, 1 node, 1 CPU, 2G memory and is good for 24 hours.
 2. Submit the job script, eg, `sbatch jupyterlab.sbatch`.
 3. Wait for the job to get started. After it starts you should see under the directory you submit the job a file called `nb-log-*.out`, with contents like:
 
