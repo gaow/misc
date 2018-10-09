@@ -44,7 +44,7 @@ Please find it in the `nb-log-*.err` file under your current directory.
 
 Just follow the prompts: run `ssh -N -L ...` command on your **local computer**, then open  your faviorate web browser, eg, `google-chrome`, on your **local computer** and type in `localhost: ...` in the address bar.
 
-4. The browser window will prompt you to type an access `token` to it. The information is in `nb-log-{jobid}.err`. 
+5. The browser window will prompt you to type an access `token` to it. The information is in `nb-log-{jobid}.err`. 
 In that file you should see a line that says:
 
 ```
@@ -53,7 +53,8 @@ Copy/paste this URL into your browser when you connect for the first time,
         http://<ip:port>/?token=xxxxxxxxxxxxxxxxxx
 ```
 Copy & paste the token part `xxxxx` to the dialog box on your browser asking for the token, hit "enter", you should be directed to the Jupyter Lab server you created a moment ago.
-5. To shut down the server, simply cancel the job
+
+6. To shut down the server, simply cancel the job
 ```
 qdel {jobid}
 ```
