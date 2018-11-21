@@ -60,6 +60,7 @@ RUN echo 'options(repos = c(CRAN = "https://cloud.r-project.org/"), download.fil
 # If you want ‘~/.Renviron’ or ‘~/.Rprofile’ to be ignored by child R processes (such as those run by R CMD check and R CMD build), set the appropriate environment variable R_ENVIRON_USER or R_PROFILE_USER to (if possible, which it is not on Windows) "" or to the name of a non-existent file.
 ENV R_ENVIRON_USER ""
 ENV R_PROFILE_USER ""
+ENV R_LIBS_USER " "
 
 # # Add a user called "docker" with given IDs and add it to staff group
 # RUN groupadd --gid 1000 docker \

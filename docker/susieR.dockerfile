@@ -59,6 +59,9 @@ RUN R --slave -e "devtools::install_github('stephenslab/dsc',subdir = 'dscrutils
 RUN R --slave -e "devtools::install_github('r-lib/testthat')"
 RUN R --slave -e "devtools::install_github('r-lib/devtools')"
 
+# Other R packages
+RUN R --slave -e "install.packages('cowplot')"
+
 # susieR update
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} R --slave -e "devtools::install_github('stephenslab/susieR')"
