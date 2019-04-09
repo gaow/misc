@@ -133,14 +133,14 @@ if __name__ == '__main__':
 
   try:
     ptimer.execute()
-    
+
     # Poll as often as possible; otherwise the subprocess might
     # "sneak" in some extra memory usage while you aren't looking.
     while ptimer.poll():
       time.sleep(ptimer.interval)
-      
+  except KeyboardInterrupt:
+    pass
   finally:
-    
     # Make sure that we don't leave the process dangling.
     ptimer.close()
 
