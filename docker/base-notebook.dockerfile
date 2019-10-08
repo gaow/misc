@@ -62,10 +62,14 @@ RUN pip install dockerspawner jupyterhub-tmpauthenticator --no-cache-dir
 # SoS Suite
 RUN pip install docker markdown wand graphviz imageio pillow nbformat jupyterlab feather-format --no-cache-dir
 
-## trigger rerun for sos updates
+## Trigger rerun for sos updates
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} pip install sos sos-notebook sos-r sos-python sos-bash --no-cache-dir
 RUN python -m sos_notebook.install
 RUN R --slave -e "IRkernel::installspec()"
 RUN jupyter labextension install transient-display-data
 RUN jupyter labextension install jupyterlab-sos
+
+# To build
+#docker build --build-arg DUMMY=`date +%s` -t gaow/base-notebook -f docker/base-notebook.dockerfile .
+#docker push gaow/base-notebook
