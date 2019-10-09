@@ -39,6 +39,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 \
 
 RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'IRkernel', 'feather')) if (!(p %in% rownames(installed.packages()))) install.packages(p, repos = 'http://cran.rstudio.com')"
 
+# A hack for ImageMagick policy issue
+# to allow view PDF files in SoS Notebook
+RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+
 USER jovyan
 # "jovyan" stands for "Jupyter User"
 
@@ -56,6 +60,10 @@ RUN python -m bash_kernel.install
 RUN pip install markdown-kernel --no-cache-dir
 RUN python -m markdown_kernel.install 
 
+# A ipynb to docx converter
+RUN pip install jupyter-docx-bundler --no-cache-dir
+RUN jupyter bundlerextension enable --py jupyter_docx_bundler --sys-prefix
+
 # Some setup for JupyterHub
 RUN pip install dockerspawner jupyterhub-tmpauthenticator --no-cache-dir
 
@@ -71,5 +79,5 @@ RUN jupyter labextension install transient-display-data
 RUN jupyter labextension install jupyterlab-sos
 
 # To build
-#docker build --build-arg DUMMY=`date +%s` -t gaow/base-notebook -f docker/base-notebook.dockerfile .
+#docker build --build-arg DUMMY=`date +%s` -t gaow/base-notebook -f base-notebook.dockerfile .
 #docker push gaow/base-notebook
