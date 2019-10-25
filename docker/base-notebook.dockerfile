@@ -24,7 +24,7 @@ RUN apt-get update \
     libc6-dev \
     libgomp1 \
     libatlas3-base \
-    && apt-get install -y --no-install-recommends graphviz pandoc nodejs libmagickwand-dev \
+    && apt-get install -y --no-install-recommends ghostscript graphviz pandoc nodejs libmagickwand-dev \
     && apt-get install -y --no-install-recommends dirmngr gpg-agent software-properties-common \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
