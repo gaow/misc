@@ -26,8 +26,13 @@ RUN apt-get update \
     libatlas3-base \
     && apt-get install -y --no-install-recommends ghostscript graphviz pandoc nodejs libmagickwand-dev \
     && apt-get install -y --no-install-recommends dirmngr gpg-agent software-properties-common \
+    && apt-get install -y --no-install-recommends vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
+
+# A hack for ImageMagick policy issue
+# to allow view PDF files in SoS Notebook
+RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
 
 # R environment, for version cran35
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 \
@@ -37,11 +42,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
-RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'IRkernel', 'feather')) if (!(p %in% rownames(installed.packages()))) install.packages(p, repos = 'http://cran.rstudio.com')"
-
-# A hack for ImageMagick policy issue
-# to allow view PDF files in SoS Notebook
-RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+RUN R --slave -e "for (p in c('dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'cowplot', 'IRkernel', 'feather')) if (!(p %in% rownames(installed.packages()))) install.packages(p, repos = 'http://cran.rstudio.com')"
 
 USER jovyan
 # "jovyan" stands for "Jupyter User"
