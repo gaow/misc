@@ -26,7 +26,7 @@ RUN apt-get update \
     libatlas3-base \
     && apt-get install -y --no-install-recommends ghostscript graphviz pandoc nodejs libmagickwand-dev \
     && apt-get install -y --no-install-recommends dirmngr gpg-agent software-properties-common \
-    && apt-get install -y --no-install-recommends vim \
+    && apt-get install -y --no-install-recommends vim openssh-client rsync \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
@@ -70,13 +70,13 @@ RUN pip install dockerspawner jupyterhub-tmpauthenticator --no-cache-dir
 
 # SoS Suite
 RUN pip install docker markdown wand graphviz imageio pillow nbformat jupyterlab feather-format --no-cache-dir
+RUN jupyter labextension install transient-display-data @jupyterlab/toc
 
 ## Trigger rerun for sos updates
 ARG DUMMY=unknown
 RUN DUMMY=${DUMMY} pip install sos sos-notebook sos-r sos-python sos-bash --no-cache-dir
 RUN python -m sos_notebook.install
 RUN R --slave -e "IRkernel::installspec()"
-RUN jupyter labextension install transient-display-data
 RUN jupyter labextension install jupyterlab-sos
 
 # To build
