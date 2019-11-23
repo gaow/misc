@@ -1,0 +1,24 @@
+#!/usr/bin/env sos-runner
+#fileformat=SOS1.0
+
+# This script installs R package of a particular
+# commit from github under an alias package name.
+# It is useful when you want to compare performance
+# of two commits.
+
+[global]
+parameter: pkg = path('')
+fail_if(not pkg, msg = 'Please specify package github repo URL, eg, ``--pkg stephenslab/susieR``')
+parameter: commit = 'master'
+parameter: alias = f'{pkg:b}.{commit}'
+
+[default]
+stop_if(commit == 'master', msg = 'Nothing to be done for `master` branch')
+import tempfile
+bash: expand = True, workdir = tempfile.mkdtemp()
+	set -e
+	curl -fsSL https://github.com/{pkg}/archive/{commit}.tar.gz -o {alias}.tar.gz
+	tar -zxvf {alias}.tar.gz 
+	cd {pkg:b}-{commit}* 
+	sed -i "s/{pkg:b}/{alias}/g" DESCRIPTION
+	R --slave -e "install.packages('./', type='source', repo=NULL); library({alias}); sessionInfo()"
