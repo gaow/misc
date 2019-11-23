@@ -2,7 +2,7 @@
 
 ## Idea
 
-To compare for example a package's current `master` on github with a given commit ID, this script helps you install that commit ID of the package to `<package>.<commit_id>` so you can access functions from that particular commit via `<package>.<commit_id>`.
+To compare for example a package's current `master` on github with a given commit ID, this script helps you install that commit ID of the package with a new package name `<package>.<commit_id>` (default), or any name you like (via `--alias` option).
 
 ## Usage
 
