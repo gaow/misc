@@ -23,10 +23,10 @@ RUN curl -L https://github.com/fhormoz/caviar/archive/master.zip -o master.zip \
 RUN curl -L https://github.com/xqwen/dap/archive/master.zip -o master.zip \
     && unzip master.zip && cd dap-master/dap_src && make && mv dap-g /usr/local/bin && rm -rf /tmp/*
 
-# Cannot bundle FINEMAP due to license issues
-#RUN curl -L http://www.christianbenner.com/finemap_v1.1_x86_64.tgz -o finemap.tgz \
-#    && tar zxvf finemap.tgz && mv finemap_v1.1_x86_64/finemap_v1.1_x86_64 /usr/local/bin/finemap \
-#    && chmod +x /usr/local/bin/finemap && rm -rf /tmp/*
+# Should not bundle FINEMAP because of potential license issues ...
+RUN curl -L http://www.christianbenner.com/finemap_v1.1_x86_64.tgz -o finemap.tgz \
+    && tar zxvf finemap.tgz && mv finemap_v1.1_x86_64/finemap_v1.1_x86_64 /usr/local/bin/finemap \
+    && chmod +x /usr/local/bin/finemap && rm -rf /tmp/*
 
 # Supporting files
 RUN curl -L https://raw.githubusercontent.com/stephenslab/susieR/master/inst/code/finemap.R -o /usr/local/bin/finemap.R \
@@ -54,7 +54,7 @@ RUN R --slave -e "devtools::install_github('hazimehh/L0Learn')"
 RUN R --slave -e "install.packages('matrixStats')"
 
 # DSC update
-RUN pip3 install sos sos-notebook dsc rpy2==2.9.4 tzlocal --no-cache-dir
+RUN pip3 install sos==0.21.5 sos-notebook==0.21.6 dsc==0.4.2 rpy2==3.1.0 tzlocal --no-cache-dir
 RUN R --slave -e "devtools::install_github('stephenslab/dsc',subdir = 'dscrutils')"
 RUN R --slave -e "devtools::install_github('r-lib/testthat')"
 RUN R --slave -e "devtools::install_github('r-lib/devtools')"
