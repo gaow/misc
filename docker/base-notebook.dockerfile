@@ -11,6 +11,7 @@ RUN apt-get update \
     unzip \
     apt-transport-https \
     build-essential \
+    cmake \
     gfortran \
     libgfortran-6-dev \
     zlib1g-dev \
