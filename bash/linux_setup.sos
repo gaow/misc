@@ -42,7 +42,7 @@ pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdow
             docker markdown wand graphviz imageio pillow nbformat feather-format \
             sos-notebook sos-r sos-python sos-bash"
 bash: expand = True
-    conda install -c bioconda {bioconda_pkgs} 
+    conda install -c bioconda {bioconda_pkgs}
     pip install {pip_pkgs} --no-cache-dir
     python -m bash_kernel.install
     python -m markdown_kernel.install
@@ -73,5 +73,5 @@ bash:
     function cd-tmp() {
         dest=$HOME/tmp/$(date '+%d-%b-%Y')
         mkdir -p $dest && cd $dest
-    } >> ~/.bashrc
-    '''
+    }
+    ''' >> ~/.bashrc
