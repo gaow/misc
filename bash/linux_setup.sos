@@ -3,22 +3,24 @@
 
 # conda and SoS
 [sos_setup]
-install_dir = '/opt/miniconda3'
-bash: expand = True
-    curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && sudo bash /tmp/miniconda.sh -bfp {install_dir} && \
-    echo "export PATH={install_dir}/bin:$PATH" >> ~/.bashrc && \
-    source ~/.bashrc && sudo chown -R $USER.users {install_dir} && mkdir -p ~/.conda && sudo chown -R $USER.users ~/.conda && \
+bash:
+    install_dir='/opt/miniconda3'
+    curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && sudo bash /tmp/miniconda.sh -bfp $install_dir && \
+    echo "export PATH=$install_dir/bin:\$PATH" >> ~/.bashrc && \
+    source ~/.bashrc && sudo chown -R $USER.users $install_dir && mkdir -p ~/.conda && sudo chown -R $USER.users ~/.conda
     pip install sos --no-cache-dir
 
 # apt-get commands
 [ubuntu_bionic_1]
+# `libqt5*` line is for virtualbox
 packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
             cmake build-essential gfortran libgfortran-6-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
             zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev \
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei \
             pandoc ghostscript graphviz libmagickwand-dev node-gyp npm nodejs-dev \
-            smartmontools lm-sensors htop dos2unix tree sshpass acl"
+            smartmontools lm-sensors htop dos2unix tree sshpass acl \
+            libqt5opengl5 libqt5printsupport5 libqt5x11extras5 libsdl1.2debian"
 bash: expand = True
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
     sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
@@ -61,7 +63,7 @@ R: expand = True
 
 # Other third party deb packages
 [ubuntu_bionic_5]
-input: "google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", group_by = 1, concurrent = False
+input: "google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", group_by = 1, concurrent = False
 bash: expand = True
     sudo dpkg -i {_input}
 
