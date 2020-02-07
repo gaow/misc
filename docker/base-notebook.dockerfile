@@ -27,7 +27,7 @@ RUN apt-get update \
     libatlas3-base \
     && apt-get install -y --no-install-recommends ghostscript graphviz pandoc nodejs libmagickwand-dev \
     && apt-get install -y --no-install-recommends dirmngr gpg-agent software-properties-common \
-    && apt-get install -y --no-install-recommends less vim openssh-client rsync \
+    && apt-get install -y --no-install-recommends less vim nano openssh-client rsync \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 

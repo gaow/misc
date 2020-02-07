@@ -1,0 +1,68 @@
+#!/usr/bin/env sos-runner
+#fileformat=SOS1.0
+
+# conda and SoS
+[20200206_ubuntu_1]
+bash:
+    curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && sudo bash /tmp/miniconda.sh -bfp /opt/miniconda3 && \
+    echo "export PATH=/opt/miniconda3/bin:$PATH" >> ~/.bashrc && \
+    source ~/.bashrc && sudo chown -R $USER.users /opt/miniconda3 && mkdir -p ~/.conda && sudo chown -R $USER.users ~/.conda && \
+    pip install sos --no-cache-dir
+
+# apt-get commands
+[20200206_ubuntu_2]
+packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
+            cmake build-essential gfortran libgfortran-6-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
+            zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev \
+            libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
+            texlive-full python-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei \
+            pandoc ghostscript graphviz libmagickwand-dev node-gyp npm nodejs-dev \
+            smartmontools lm-sensors htop dos2unix tree sshpass acl"
+bash: expand = True
+    sudo apt-get install -y {packages} && \
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
+    sudo apt-get update && \
+    sudo apt install r-base r-base-dev libatlas3-base && \
+    sudo apt-get clean
+
+# docker
+[20200206_ubuntu_3]
+bash:
+    curl -fsSL get.docker.com -o /tmp/get-docker.sh && sudo sh /tmp/get-docker.sh && \
+    sudo usermod -aG docker $USER
+
+# conda based tools
+[20200206_ubuntu_4]
+bioconda_pkgs = "cyvcf2 bedtools plink vcftools bcftools bedops tabix htslib"
+pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel jupyter-docx-bundler nbdime \
+            docker markdown wand graphviz imageio pillow nbformat feather-format \
+            sos-notebook sos-r sos-python sos-bash"
+bash: expand = True
+    conda install -c bioconda {bioconda_pkgs} 
+    pip install {pip_pkgs} --no-cache-dir
+    python -m bash_kernel.install
+    python -m markdown_kernel.install
+    R --slave -e "options(askYesNo='yes'); install.packages('IRkernel'); IRkernel::installspec()"
+    jupyter bundlerextension enable --py jupyter_docx_bundler --sys-prefix
+    nbdime config-git --enable --global
+    python -m sos_notebook.install
+    jupyter labextension install transient-display-data
+    jupyter labextension install jupyterlab-sos
+
+# Other third party deb packages
+[20200206_ubuntu_5]
+input: "google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", group_by = 1, concurrent = False
+bash: expand = True
+    sudo dpkg -i {_input}
+
+# Configure bashrc
+[20200206_ubuntu_6]
+bash:
+    echo '''
+    function nb() { jupyterlab $@ &> /dev/null & }
+    function cd-tmp() {
+        dest=$HOME/tmp/$(date '+%d-%b-%Y')
+        mkdir -p $dest && cd $dest
+    }
+    '''
