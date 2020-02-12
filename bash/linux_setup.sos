@@ -70,7 +70,7 @@ bash: expand = True
 [ubuntu_bionic_6]
 bash:
     echo '''
-    function nb() { jupyterlab $@ &> /dev/null & }
+    function nb() { jupyter-lab $@ &> /dev/null & }
     function cd-tmp() {
         dest=$HOME/tmp/$(date '+%d-%b-%Y')
         mkdir -p $dest && cd $dest
