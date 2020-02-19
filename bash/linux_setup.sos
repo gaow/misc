@@ -35,14 +35,8 @@ bash:
     curl -fsSL get.docker.com -o /tmp/get-docker.sh && sudo sh /tmp/get-docker.sh && \
     sudo usermod -aG docker $USER
 
-# R packages
+# Python and conda based tools
 [ubuntu_bionic_3]
-r_libs = ['dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'cowplot', 'feather', 'devtools']
-R: expand = True
-    for (p in c({paths(r_libs):r,})) if (!(p %in% rownames(installed.packages()))) install.packages(p, repos = 'http://cran.rstudio.com')"
-
-# conda based tools
-[ubuntu_bionic_4]
 bioconda_pkgs = "cyvcf2 bedtools plink vcftools bcftools bedops tabix htslib"
 pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel jupyter-docx-bundler nbdime \
             docker markdown wand graphviz imageio pillow nbformat feather-format \
@@ -52,16 +46,25 @@ bash: expand = True
     pip install {pip_pkgs} --no-cache-dir
     python -m bash_kernel.install
     python -m markdown_kernel.install
-    R --slave -e "options(askYesNo='yes'); install.packages('IRkernel', repos = 'http://cran.rstudio.com'); IRkernel::installspec()"
     jupyter bundlerextension enable --py jupyter_docx_bundler --sys-prefix
     nbdime config-git --enable --global
     python -m sos_notebook.install
     jupyter labextension install transient-display-data
     jupyter labextension install jupyterlab-sos
 
+# R packages
+[ubuntu_bionic_4]
+pkg = ['dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel']
+input: for_each = 'pkg', group_by = 1, concurrent = False
+R: expand = True
+    options(askYesNo='yes')
+    if (!("{_pkg}" %in% rownames(installed.packages()))) install.packages("{_pkg}", repos = 'http://cran.rstudio.com')"
+    if ("{_pkg}" == "IRkernel") IRkernel::installspec()
+
 # Other third party deb packages
 [ubuntu_bionic_5]
-input: "google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", "sogoupinyin_2.3.1.0112_amd64.deb", group_by = 1, concurrent = False
+parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", "sogoupinyin_2.3.1.0112_amd64.deb"]
+input: dpkg, group_by = 1, concurrent = False
 bash: expand = True
     # Try to install first, and fix it if the initial installation failed due to uninstalled dependencies.
     sudo dpkg -i {_input} || sudo apt-get install -f -y
@@ -76,3 +79,10 @@ bash:
         mkdir -p $dest && cd $dest
     }
     ''' >> ~/.bashrc
+
+# Stephenslab R packages
+[stephenslab]
+pkg = ['mixsqp', 'flashr', 'mashr', 'susieR', 'mmbr']
+input: for_each = 'pkg', group_by = 1, concurrent = False
+R: expand = True
+    remotes::install_github('stephenslab/{_pkg}')
