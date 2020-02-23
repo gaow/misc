@@ -86,3 +86,12 @@ pkg = ['mixsqp', 'flashr', 'mashr', 'susieR', 'mmbr']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 R: expand = True
     remotes::install_github('stephenslab/{_pkg}')
+
+# CSG packages
+[csg]
+igv = '2.8'
+bash: expand = True, workdir = '/tmp'
+    wget https://data.broadinstitute.org/igv/projects/downloads/{igv_version}/IGV_Linux_{igv_version}.0.zip \
+    && unzip IGV_Linux_{igv_version}.0.zip \
+    sudo mv IGV_Linux_2.8.0 /opt/IGV
+    sudo ln -s /opt/IGV/igv.sh /usr/local/bin/igv
