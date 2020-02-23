@@ -8,7 +8,7 @@ bash:
     curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && sudo bash /tmp/miniconda.sh -bfp $install_dir
     echo "export PATH=$install_dir/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
     sudo chown -R $USER.users $install_dir && mkdir -p ~/.conda && sudo chown -R $USER.users ~/.conda
-    conda install -c conda-forge -y sos
+    conda install -y -c conda-forge sos
 
 # apt-get commands
 [ubuntu_bionic_1]
@@ -47,8 +47,8 @@ pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdow
             docker markdown wand graphviz imageio pillow nbformat feather-format \
             sos-notebook sos-r sos-python sos-bash"
 bash: expand = True
-    conda install -c bioconda {bioconda_pkgs}
-    conda install -c conda-forge nodejs
+    conda install -y -c bioconda {bioconda_pkgs}
+    conda install -y -c conda-forge nodejs
     pip install {pip_pkgs} --no-cache-dir
     python -m bash_kernel.install
     python -m markdown_kernel.install
@@ -62,7 +62,7 @@ bash: expand = True
 
 # R packages
 [ubuntu_bionic_4]
-pkg = ['dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel']
+pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
 R: expand = True
@@ -75,7 +75,7 @@ bash: expand = True
 [ubuntu_bionic_5]
 parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", "sogoupinyin_2.3.1.0112_amd64.deb"]
 input: dpkg, group_by = 1, concurrent = False
-output: f'/tmp/{_dpkg}.done'
+output: f'/tmp/{_input}.done'
 bash: expand = True
     # Try to install first, and fix it if the initial installation failed due to uninstalled dependencies.
     sudo dpkg -i {_input} || sudo apt-get install -f -y
@@ -106,11 +106,11 @@ bash: expand = True
 
 # CSG packages
 [csg]
-igv = '2.8'
+igv_version = '2.8'
 output: f'/tmp/{step_name}.done'
 bash: expand = True, workdir = '/tmp'
     wget https://data.broadinstitute.org/igv/projects/downloads/{igv_version}/IGV_Linux_{igv_version}.0.zip \
-    && unzip IGV_Linux_{igv_version}.0.zip \
-    sudo mv IGV_Linux_2.8.0 /opt/IGV
-    sudo ln -s /opt/IGV/igv.sh /usr/local/bin/igv
+    && unzip IGV_Linux_{igv_version}.0.zip
+    sudo mv IGV_Linux_2.8.0 /opt/IGV \
+    && sudo ln -s /opt/IGV/igv.sh /usr/local/bin/igv
     touch {_output}
