@@ -14,11 +14,12 @@ bash:
 [ubuntu_bionic_1]
 packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
             cmake build-essential gfortran libgfortran-6-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
-            zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev \
+            zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev default-jdk \
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei \
             pandoc ghostscript graphviz libmagickwand-dev \
             smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk terminator"
+output: f'/tmp/{step_name}.done'
 bash: expand = True
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
     sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' && \
@@ -28,15 +29,19 @@ bash: expand = True
     # A hack for ImageMagick policy issue
     # to allow view PDF files in SoS Notebook
     sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+    touch {_output}
 
 # docker
 [ubuntu_bionic_2]
-bash:
+output: f'/tmp/{step_name}.done'
+bash: expand = True
     curl -fsSL get.docker.com -o /tmp/get-docker.sh && sudo sh /tmp/get-docker.sh && \
     sudo usermod -aG docker $USER
+    touch {_output}
 
 # Python and conda based tools
 [ubuntu_bionic_3]
+output: f'/tmp/{step_name}.done'
 bioconda_pkgs = "cyvcf2 bedtools plink vcftools bcftools bedops tabix htslib"
 pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel jupyter-docx-bundler nbdime \
             docker markdown wand graphviz imageio pillow nbformat feather-format \
@@ -52,25 +57,33 @@ bash: expand = True
     python -m sos_notebook.install
     jupyter labextension install transient-display-data
     jupyter labextension install jupyterlab-sos
+    jupyter labextension install @jupyterlab/toc
+    touch {_output}
 
 # R packages
 [ubuntu_bionic_4]
 pkg = ['dplyr', 'stringr', 'readr', 'magrittr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel']
 input: for_each = 'pkg', group_by = 1, concurrent = False
+output: f'/tmp/{_pkg}.done'
 R: expand = True
     if (!("{_pkg}" %in% rownames(installed.packages()))) install.packages("{_pkg}", repos = 'http://cran.rstudio.com')
     if ("{_pkg}" == "IRkernel") IRkernel::installspec()
+bash: expand = True
+    touch {_output}
 
 # Other third party deb packages
 [ubuntu_bionic_5]
 parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", "sogoupinyin_2.3.1.0112_amd64.deb"]
 input: dpkg, group_by = 1, concurrent = False
+output: f'/tmp/{_dpkg}.done'
 bash: expand = True
     # Try to install first, and fix it if the initial installation failed due to uninstalled dependencies.
     sudo dpkg -i {_input} || sudo apt-get install -f -y
+    touch {_output}
 
 # Configure bashrc
 [ubuntu_bionic_6]
+output: f'/tmp/{_pkg}.done'
 bash:
     echo '''
     function nb() { jupyter-lab $@ &> /dev/null & }
@@ -79,19 +92,25 @@ bash:
         mkdir -p $dest && cd $dest
     }
     ''' >> ~/.bashrc
+    touch {_output}
 
 # Stephenslab R packages
 [stephenslab]
 pkg = ['mixsqp', 'flashr', 'mashr', 'susieR', 'mmbr']
 input: for_each = 'pkg', group_by = 1, concurrent = False
+output: f'/tmp/{_pkg}.done'
 R: expand = True
     remotes::install_github('stephenslab/{_pkg}')
+bash: expand = True
+    touch {_output}
 
 # CSG packages
 [csg]
 igv = '2.8'
+output: f'/tmp/{step_name}.done'
 bash: expand = True, workdir = '/tmp'
     wget https://data.broadinstitute.org/igv/projects/downloads/{igv_version}/IGV_Linux_{igv_version}.0.zip \
     && unzip IGV_Linux_{igv_version}.0.zip \
     sudo mv IGV_Linux_2.8.0 /opt/IGV
     sudo ln -s /opt/IGV/igv.sh /usr/local/bin/igv
+    touch {_output}
