@@ -73,8 +73,21 @@ bash: expand = True
     jupyter labextension install @jupyterlab/toc
     touch {_output}
 
-# R packages
+# Configure bashrc
 [ubuntu_bionic_4, pop_os_4]
+output: f'/tmp/{step_name}.done'
+bash:
+    echo '''
+    function nb() { jupyter-lab $@ &> /dev/null & }
+    function cd-tmp() {
+        dest=$HOME/tmp/$(date '+%d-%b-%Y')
+        mkdir -p $dest && cd $dest
+    }
+    ''' >> ~/.bashrc
+    touch {_output}
+
+# R packages
+[ubuntu_bionic_5, pop_os_5]
 pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
@@ -85,26 +98,13 @@ bash: expand = True
     touch {_output}
 
 # Other third party deb packages
-[ubuntu_bionic_5, pop_os_5]
+[ubuntu_bionic_6, pop_os_6]
 parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", "sogoupinyin_2.3.1.0112_amd64.deb"]
 input: dpkg, group_by = 1, concurrent = False
 output: f'/tmp/{_input}.done'
 bash: expand = True
     # Try to install first, and fix it if the initial installation failed due to uninstalled dependencies.
     sudo dpkg -i {_input} || sudo apt-get install -f -y
-    touch {_output}
-
-# Configure bashrc
-[ubuntu_bionic_6, pop_os_6]
-output: f'/tmp/{_pkg}.done'
-bash:
-    echo '''
-    function nb() { jupyter-lab $@ &> /dev/null & }
-    function cd-tmp() {
-        dest=$HOME/tmp/$(date '+%d-%b-%Y')
-        mkdir -p $dest && cd $dest
-    }
-    ''' >> ~/.bashrc
     touch {_output}
 
 # Stephenslab R packages
