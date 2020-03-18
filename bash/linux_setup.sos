@@ -55,7 +55,7 @@ bash: expand = True
 # Python and conda based tools
 [ubuntu_bionic_3, pop_os_3]
 output: f'/tmp/{step_name}.done'
-bioconda_pkgs = "cyvcf2 bedtools plink vcftools bcftools bedops tabix htslib"
+bioconda_pkgs = "cyvcf2 bedtools plink vcftools perl-vcftools-vcf bcftools bedops tabix htslib"
 pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel jupyter-docx-bundler nbdime \
             docker markdown wand graphviz imageio pillow nbformat feather-format \
             sos-notebook sos-r sos-python sos-bash"
