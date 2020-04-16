@@ -88,7 +88,7 @@ bash:
 
 # R packages
 [ubuntu_bionic_5, pop_os_5]
-pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel']
+pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel', 'pkgdown']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
 R: expand = True
