@@ -33,7 +33,7 @@ bash: expand = True
 
 [ubuntu_bionic_1]
 packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
-            cmake build-essential gfortran libgfortran-6-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
+            cmake build-essential gfortran libgfortran-6-dev libgomp-dev libgsl-dev libatlas3-base liblapack-dev \
             zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev default-jdk \
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei \
@@ -54,7 +54,7 @@ bash: expand = True
     
 [pop_os_1]
 packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
-            cmake build-essential gfortran libgfortran-9-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
+            cmake build-essential gfortran libgfortran-9-dev libgomp-dev libgsl-dev libatlas3-base liblapack-dev \
             zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev default-jdk \
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python-pygments r-base r-base-dev libatlas3-base \
