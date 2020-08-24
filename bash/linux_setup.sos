@@ -11,6 +11,26 @@ bash:
     conda install -y -c conda-forge sos
 
 # apt-get commands
+
+[ubuntu_focal_1]
+packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
+            cmake build-essential gfortran libgfortran-9-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
+            zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev default-jdk \
+            libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
+            texlive-full python-pygments fonts-wqy-microhei fonts-wqy-zenhei \
+            pandoc ghostscript graphviz libmagickwand-dev \
+            smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk terminator \
+            xournal openconnect pdftk docker.io"
+output: f'/tmp/{step_name}.done'
+bash: expand = True
+    sudo apt-get update && \
+    sudo apt install -y {packages} r-base r-base-dev libatlas3-base && \
+    sudo apt-get clean
+    # A hack for ImageMagick policy issue
+    # to allow view PDF files in SoS Notebook
+    sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+    touch {_output}
+
 [ubuntu_bionic_1]
 packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
             cmake build-essential gfortran libgfortran-6-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
@@ -18,7 +38,8 @@ packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates d
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei \
             pandoc ghostscript graphviz libmagickwand-dev \
-            smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk terminator"
+            smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk terminator \
+            xournal openconnect"
 output: f'/tmp/{step_name}.done'
 bash: expand = True
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
@@ -43,6 +64,7 @@ output: f'/tmp/{step_name}.done'
 bash: expand = True
     sudo apt install -y {packages} && \
     sudo apt-get clean
+    sudo usermod -aG docker $USER
 
 # docker
 [ubuntu_bionic_2, pop_os_2]
@@ -53,7 +75,7 @@ bash: expand = True
     touch {_output}
 
 # Python and conda based tools
-[ubuntu_bionic_3, pop_os_3]
+[ubuntu_bionic_3, pop_os_3, ubuntu_focal_3]
 output: f'/tmp/{step_name}.done'
 bioconda_pkgs = "cyvcf2 bedtools plink vcftools perl-vcftools-vcf bcftools bedops tabix htslib"
 pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel jupyter-docx-bundler nbdime \
@@ -74,7 +96,7 @@ bash: expand = True
     touch {_output}
 
 # Configure bashrc
-[ubuntu_bionic_4, pop_os_4]
+[ubuntu_bionic_4, pop_os_4, ubuntu_focal_4]
 output: f'/tmp/{step_name}.done'
 bash:
     echo '''
@@ -87,7 +109,7 @@ bash:
     touch {_output}
 
 # R packages
-[ubuntu_bionic_5, pop_os_5]
+[ubuntu_bionic_5, pop_os_5, ubuntu_focal_5]
 pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel', 'pkgdown']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
@@ -98,8 +120,8 @@ bash: expand = True
     touch {_output}
 
 # Other third party deb packages
-[ubuntu_bionic_6, pop_os_6]
-parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.3.2-amd64.deb", "code_1.41.1-1576681836_amd64.deb", "insync_3.0.28.40721-bionic_amd64.deb", "virtualbox-6.1_6.1.2-135662_Ubuntu_bionic_amd64.deb", "sogoupinyin_2.3.1.0112_amd64.deb"]
+[ubuntu_bionic_6, pop_os_6, ubuntu_focal_6]
+parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.4.3-amd64.deb", "code_1.46.0-1591780013_amd64.deb", "insync_3.1.9.40821-bionic_amd64.deb", "virtualbox-6.1_6.1.10-138449~Ubuntu~eoan_amd64.deb"]
 input: dpkg, group_by = 1, concurrent = False
 output: f'/tmp/{_input}.done'
 bash: expand = True
