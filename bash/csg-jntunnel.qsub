@@ -12,6 +12,7 @@ port=$(shuf -i8000-9999 -n1)
 node=$(hostname -s)
 user=$(whoami)
 cluster=hgrcgrid.cpmc.columbia.edu
+timestamp=$(date +%s)
 # print tunneling instructions
 echo -e "
 
@@ -30,7 +31,7 @@ Use a Browser on your local machine to go to:
 localhost:${port} (prefix w/ https:// if using password)
 
 You may be prompted to provide a token (a string of 48 letters + digits).
-Please find '?token=...' in the jupyter-lab-*.log file under your current directory,
+Please find '?token=...' in the 'jupyter-lab-${timestamp}.log' file under your current directory,
 and copy the '...' tokens.
 "
 
@@ -43,4 +44,4 @@ module load R/3.5
 export PATH=/home/${user}/miniconda3/bin:$PATH
 
 # Start jupyter
-jupyter-lab --no-browser --port=${port} --ip=${node} 2> jupyter-lab-$(date +%s).log
+jupyter-lab --no-browser --port=${port} --ip=${node} 2> jupyter-lab-${timestamp}.log
