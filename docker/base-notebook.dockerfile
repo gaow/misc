@@ -1,6 +1,6 @@
-FROM jupyter/base-notebook:hub-1.0.0
+FROM jupyter/base-notebook:hub-1.3.0
 
-MAINTAINER Gao Wang <gw2411@columbia.edu>
+MAINTAINER Gao Wang <wang.gao@columbia.edu>
 
 USER root
 
@@ -12,8 +12,8 @@ RUN apt-get update \
     apt-transport-https \
     build-essential \
     cmake \
-    gfortran \
-    libgfortran-6-dev \
+    gfortran-10 \
+    libgfortran-10-dev \
     zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
@@ -35,9 +35,9 @@ RUN apt-get update \
 # to allow view PDF files in SoS Notebook
 RUN sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
 
-# R environment, for version cran35
+# R environment, for version cran40
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 \
-    && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/' \
+    && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/' \
     && apt-get update \
     && apt-get install -y --no-install-recommends r-base r-base-dev r-base-core \
     && apt-get clean \
@@ -71,14 +71,12 @@ RUN pip install dockerspawner jupyterhub-tmpauthenticator --no-cache-dir
 
 # SoS Suite
 RUN pip install docker markdown wand graphviz imageio pillow nbformat jupyterlab feather-format --no-cache-dir
-RUN jupyter labextension install transient-display-data @jupyterlab/toc
 
 ## Trigger rerun for sos updates
 ARG DUMMY=unknown
-RUN DUMMY=${DUMMY} pip install sos sos-notebook sos-r sos-python sos-bash --no-cache-dir
+RUN DUMMY=${DUMMY} pip install sos sos-notebook sos-r sos-python sos-bash jupyterlab-sos --no-cache-dir
 RUN python -m sos_notebook.install
 RUN R --slave -e "IRkernel::installspec()"
-RUN jupyter labextension install jupyterlab-sos
 
 # To build
 #docker build --build-arg DUMMY=`date +%s` -t gaow/base-notebook -f base-notebook.dockerfile .
