@@ -19,7 +19,7 @@ packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates d
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python-pygments fonts-wqy-microhei fonts-wqy-zenhei \
             pandoc ghostscript graphviz libmagickwand-dev \
-            smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk terminator \
+            smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk terminator filezilla \
             xournal openconnect pdftk docker.io"
 output: f'/tmp/{step_name}.done'
 bash: expand = True
@@ -78,7 +78,7 @@ bash: expand = True
 [ubuntu_bionic_3, pop_os_3, ubuntu_focal_3]
 output: f'/tmp/{step_name}.done'
 bioconda_pkgs = "cyvcf2 bedtools plink vcftools perl-vcftools-vcf bcftools bedops tabix htslib"
-pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel jupyter-docx-bundler nbdime \
+pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel nbdime \
             docker markdown wand graphviz imageio pillow nbformat feather-format \
             sos-notebook sos-r sos-python sos-bash"
 bash: expand = True
@@ -112,7 +112,9 @@ pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather',
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
 R: expand = True
-    if (!("{_pkg}" %in% rownames(installed.packages()))) install.packages("{_pkg}", repos = 'http://cran.rstudio.com')
+    dest = Sys.getenv("R_LIBS_USER")
+    system(paste('mkdir -p', dest))
+    if (!("{_pkg}" %in% rownames(installed.packages()))) install.packages("{_pkg}", lib=dest, repos = 'http://cran.rstudio.com')
     if ("{_pkg}" == "IRkernel") IRkernel::installspec()
 bash: expand = True
     touch {_output}
