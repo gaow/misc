@@ -4,11 +4,11 @@
 # conda and SoS
 [sos_setup]
 bash:
-    install_dir='/opt/miniconda3'
-    curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && sudo bash /tmp/miniconda.sh -bfp $install_dir
+    install_dir='$HOME/miniconda3'
+    curl -fsSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh && bash /tmp/miniconda.sh -bfp $install_dir
     echo "export PATH=$install_dir/bin:\$PATH" >> ~/.bashrc && source ~/.bashrc
-    sudo chown -R $USER.users $install_dir && mkdir -p ~/.conda && sudo chown -R $USER.users ~/.conda
-    conda install -y -c conda-forge sos
+    chown -R $USER.users $install_dir && mkdir -p ~/.conda && chown -R $USER.users ~/.conda
+    pip install sos
 
 # apt-get commands
 
@@ -90,9 +90,7 @@ bash: expand = True
     jupyter bundlerextension enable --py jupyter_docx_bundler --sys-prefix
     nbdime config-git --enable --global
     python -m sos_notebook.install
-    jupyter labextension install transient-display-data
-    jupyter labextension install jupyterlab-sos
-    jupyter labextension install @jupyterlab/toc
+    pip install jupyterlab-sos -U --no-cache-dir
     touch {_output}
 
 # Configure bashrc
