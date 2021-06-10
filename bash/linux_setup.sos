@@ -96,7 +96,7 @@ bash: expand = True
 # Configure bashrc
 [ubuntu_bionic_4, pop_os_4, ubuntu_focal_4]
 output: f'/tmp/{step_name}.done'
-bash:
+bash: expand=True
     echo '''
     function nb() { jupyter-lab $@ &> /dev/null & }
     function cd-tmp() {
