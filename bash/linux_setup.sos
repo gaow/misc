@@ -121,7 +121,7 @@ bash: expand = True
 
 # Other third party deb packages
 [ubuntu_bionic_6, pop_os_6, ubuntu_focal_6]
-parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.4.3-amd64.deb", "code_1.46.0-1591780013_amd64.deb", "insync_3.1.9.40821-bionic_amd64.deb", "virtualbox-6.1_6.1.10-138449~Ubuntu~eoan_amd64.deb"]
+parameter: dpkg = ["google-chrome-stable_current_amd64.deb", "slack-desktop-4.19.2-amd64.deb", "code_1.60.0-1630494279_amd64.deb", "insync_3.5.2.50118-focal_amd64.deb", "virtualbox-6.1_6.1.26-145957~Ubuntu~eoan_amd64.deb"]
 input: dpkg, group_by = 1, concurrent = False
 output: f'/tmp/{_input}.done'
 bash: expand = True
@@ -131,7 +131,7 @@ bash: expand = True
 
 # Stephenslab R packages
 [stephenslab]
-pkg = ['mixsqp', 'flashr', 'mashr', 'susieR', 'mmbr']
+pkg = ['mixsqp', 'flashr', 'mashr', 'susieR', 'mvsusieR']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
 R: expand = True
