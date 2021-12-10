@@ -96,7 +96,7 @@ bash: expand = True
 # Configure bashrc
 [ubuntu_bionic_4, pop_os_4, ubuntu_focal_4]
 output: f'/tmp/{step_name}.done'
-bash: expand=True
+bash: expand="${ }"
     echo '''
     function nb() { jupyter-lab $@ &> /dev/null & }
     function cd-tmp() {
@@ -104,7 +104,7 @@ bash: expand=True
         mkdir -p $dest && cd $dest
     }
     ''' >> ~/.bashrc
-    touch {_output}
+    touch ${_output}
 
 # R packages
 [ubuntu_bionic_5, pop_os_5, ubuntu_focal_5]
