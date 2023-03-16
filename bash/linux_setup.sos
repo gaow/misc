@@ -51,7 +51,26 @@ bash: expand = True
     # to allow view PDF files in SoS Notebook
     sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
     touch {_output}
-    
+
+[debian_bulleye_1]
+packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
+            cmake build-essential gfortran libgfortran-10-dev libgomp1 libgsl-dev libatlas3-base liblapack-dev \
+            zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev default-jdk \
+            libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
+            texlive-full python3-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei ttf-ubuntu-font-family ttf-mscorefonts-installer \
+            pandoc ghostscript graphviz libmagickwand-dev \
+            smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk evince uuid terminator \
+            xournal openconnect"
+output: f'/tmp/{step_name}.done'
+bash: expand = True
+    sudo apt-get update && \
+    sudo apt install -y {packages} r-base r-base-dev libatlas3-base && \
+    sudo apt-get clean
+    # A hack for ImageMagick policy issue
+    # to allow view PDF files in SoS Notebook
+    # sudo sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="read|write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
+    touch {_output}
+
 [pop_os_1]
 packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates dirmngr gpg-agent software-properties-common \
             cmake build-essential gfortran libgfortran-9-dev libgomp-dev libgsl-dev libatlas3-base liblapack-dev \
@@ -67,7 +86,7 @@ bash: expand = True
     sudo usermod -aG docker $USER
 
 # docker
-[ubuntu_bionic_2, pop_os_2]
+[ubuntu_bionic_2, pop_os_2, debian_bulleye_2]
 output: f'/tmp/{step_name}.done'
 bash: expand = True
     curl -fsSL get.docker.com -o /tmp/get-docker.sh && sudo sh /tmp/get-docker.sh && \
@@ -75,7 +94,7 @@ bash: expand = True
     touch {_output}
 
 # Python and conda based tools
-[ubuntu_bionic_3, pop_os_3, ubuntu_focal_3]
+[ubuntu_bionic_3, pop_os_3, ubuntu_focal_3, debian_bulleye_3]
 output: f'/tmp/{step_name}.done'
 bioconda_pkgs = "cyvcf2 bedtools plink vcftools perl-vcftools-vcf bcftools bedops tabix htslib"
 pip_pkgs = "notebook jupyterlab jupyter_contrib_nbextensions bash_kernel markdown-kernel nbdime \
@@ -93,21 +112,8 @@ bash: expand = True
     pip install jupyterlab-sos -U --no-cache-dir
     touch {_output}
 
-# Configure bashrc
-[ubuntu_bionic_4, pop_os_4, ubuntu_focal_4]
-output: f'/tmp/{step_name}.done'
-bash: expand="${ }"
-    echo '''
-    function nb() { jupyter-lab $@ &> /dev/null & }
-    function cd-tmp() {
-        dest=$HOME/tmp/$(date '+%d-%b-%Y')
-        mkdir -p $dest && cd $dest
-    }
-    ''' >> ~/.bashrc
-    touch ${_output}
-
 # R packages
-[ubuntu_bionic_5, pop_os_5, ubuntu_focal_5]
+[ubuntu_bionic_4, pop_os_4, ubuntu_focal_4, debian_bulleye_4]
 pkg = ['magrittr', 'dplyr', 'stringr', 'readr', 'ggplot2', 'cowplot', 'feather', 'devtools', 'IRkernel', 'pkgdown']
 input: for_each = 'pkg', group_by = 1, concurrent = False
 output: f'/tmp/{_pkg}.done'
@@ -118,6 +124,19 @@ R: expand = True
     if ("{_pkg}" == "IRkernel") IRkernel::installspec()
 bash: expand = True
     touch {_output}
+
+# Configure bashrc
+[ubuntu_bionic_5, pop_os_5, ubuntu_focal_5]
+output: f'/tmp/{step_name}.done'
+bash: expand="${ }"
+    echo '''
+    function nb() { jupyter-lab $@ &> /dev/null & }
+    function cd-tmp() {
+        dest=$HOME/tmp/$(date '+%d-%b-%Y')
+        mkdir -p $dest && cd $dest
+    }
+    ''' >> ~/.bashrc
+    touch ${_output}
 
 # Other third party deb packages
 [ubuntu_bionic_6, pop_os_6, ubuntu_focal_6]
