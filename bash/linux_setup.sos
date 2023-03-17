@@ -58,7 +58,7 @@ packages = "git wget less unzip gzip bzip2 apt-transport-https ca-certificates d
             zlib1g-dev libbz2-dev liblzma-dev libsqlite3-dev libxml2-dev libc6-dev default-jdk \
             libcurl4-openssl-dev libssl-dev libssh2-1-dev openssh-server openssh-client rsync vim vim-gtk3 nano trash-cli \
             texlive-full python3-pygments fonts-wqy-microhei ttf-wqy-microhei fonts-wqy-zenhei ttf-wqy-zenhei ttf-ubuntu-font-family ttf-mscorefonts-installer \
-            pandoc ghostscript graphviz libmagickwand-dev libharfbuzz-dev libfribidi-dev \
+            pandoc ghostscript graphviz libmagickwand-dev libharfbuzz-dev libfribidi-dev apparmor \
             smartmontools lm-sensors htop dos2unix tree sshpass acl fcitx fcitx-config-gtk evince uuid terminator \
             xournal openconnect"
 output: f'/tmp/{step_name}.done'
