@@ -1,0 +1,28 @@
+name: sos
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - bash_kernel
+  - feather-format
+  - imageio
+  - jupyter_contrib_nbextensions
+  - jupyterlab
+  - jupyterlab-sos
+  - markdown
+  - markdown-kernel
+  - nbdime
+  - nbformat
+  - notebook <7
+  - pillow
+  - python 3.10.*
+  - r-base >4
+  - r-irkernel
+  - sos
+  - sos-bash
+  - sos-notebook
+  - sos-r
+  - sos-pbs
+  - sos-python
+  - wand
