@@ -7,14 +7,15 @@ dependencies:
   - bash_kernel
   - feather-format
   - imageio
-  - jupyter_contrib_nbextensions
-  - jupyterlab
+  - jupyter_contrib_nbextensions 0.7.0
+  - jupyterlab =4.0.5
+  - jupyter_server =2.7.1
   - jupyterlab-sos
   - markdown
   - markdown-kernel
   - nbdime
   - nbformat
-  - notebook <7
+  - notebook =6.5.5
   - pillow
   - python 3.10.*
   - r-base >4
