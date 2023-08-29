@@ -20,6 +20,8 @@ dependencies:
   - python 3.10.*
   - r-base >4
   - r-irkernel
+  - r-languageserver
+  - ipykernel
   - sos
   - sos-bash
   - sos-notebook
