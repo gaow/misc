@@ -1,31 +1,33 @@
-name: sos
+name: hpc-aug-2023
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
-  - bash_kernel
-  - feather-format
-  - imageio
-  - jupyter_contrib_nbextensions
-  - jupyterlab =3.6.4
-  - jupyter_server
-  - jupyterlab-sos
-  - markdown
-  - markdown-kernel
-  - nbdime
-  - nbformat
-  - notebook =6.5.5
-  - pillow
-  - python 3.10.*
+  - bash_kernel =0.9.0
+  - feather-format =0.4.1
+  - imageio =2.31.1
+  - jupyter_contrib_nbextensions =0.7.0
+  - jupyterlab =3.6.3
+  - jupyter_server =2.6.0
+  - jupyterlab-sos =0.9.0
+  - jupyter_client =8.2.0
+  - jupyter-lsp =2.2.0
+  - markdown =3.4.3
+  - markdown-kernel =0.2.1
+  - nbdime =3.2.1
+  - nbformat =5.8.0
+  - notebook =6.5.4
+  - pillow =9.5.0
+  - python =3.8.16
   - r-base >4
   - r-irkernel
   - r-languageserver
-  - ipykernel
-  - sos
-  - sos-bash
-  - sos-notebook
-  - sos-r
-  - sos-pbs
-  - sos-python
-  - wand
+  - ipykernel =6.23.1
+  - sos =0.24.1
+  - sos-bash =0.20.0
+  - sos-notebook =0.24.0
+  - sos-r =0.19.6
+  - sos-pbs =0.20.8
+  - sos-python =0.18.4
+  - wand =0.6.10
