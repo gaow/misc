@@ -1,4 +1,4 @@
-name: sos
+name: pisces-rabbit
 channels:
   - conda-forge
   - bioconda
@@ -8,14 +8,16 @@ dependencies:
   - feather-format
   - imageio
   - jupyter_contrib_nbextensions
-  - jupyterlab =3.6.4
-  - jupyter_server
+  - jupyterlab 3.6.*
+  - jupyter_server =1.23.6
+  - jupyter_client =8.0.3
+  - jupyter-lsp
   - jupyterlab-sos
   - markdown
   - markdown-kernel
   - nbdime
   - nbformat
-  - notebook =6.5.5
+  - notebook =6.5.4
   - pillow
   - python 3.10.*
   - r-base >4
@@ -25,7 +27,6 @@ dependencies:
   - sos
   - sos-bash
   - sos-notebook
-  - sos-r
   - sos-pbs
   - sos-python
   - wand
