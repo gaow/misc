@@ -11,3 +11,9 @@ echo '.libPaths("~/micromamba/envs/r_libs/lib/R/library")' >> ${HOME}/.Rprofile
 ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
 ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
 
+# Register Juypter kernels
+find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+    xargs -I % jupyter-kernelspec install %
+find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
+    xargs -I % jupyter-kernelspec install %
+

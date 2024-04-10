@@ -14,25 +14,17 @@ mkdir -p ${HOME}/.config/pixi && echo 'default_channels = ["dnachun", "conda-for
 pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/global_packages.txt | tr '\n' ' ')
 
 # install R and Python libraries currently via micromamba although later pixi will also support installing them in `global` as libraries without `bin`
-RUN micromamba config prepend channels nodefaults 
-RUN micromamba config prepend channels bioconda
-RUN micromamba config prepend channels conda-forge
-RUN micromamba config prepend channels dnachun
-RUN micromamba env create --yes --quiet --file <(curl -fsSL FIXME)
-RUN micromamba env create --yes --quiet --file <(curl -fsSL FIXME)
-RUN micromamba clean --all --yes
-RUN micromamba shell init --shell=bash ${HOME}/micromamba
+micromamba config prepend channels nodefaults 
+micromamba config prepend channels bioconda
+micromamba config prepend channels conda-forge
+micromamba config prepend channels dnachun
+micromamba shell init --shell=bash ${HOME}/micromamba
+micromamba env create --yes --quiet --file <(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml)
+micromamba env create --yes --quiet --file <(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml)
+micromamba clean --all --yes
 
-# Register Juypter kernels
-find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
-    xargs -I % jupyter-kernelspec install %
-find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
-    xargs -I % jupyter-kernelspec install %
+# fix R and Python settings 
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/init.sh | bash
 
-# Set R and Python library paths 
-curl -fsSL init.sh | bash
-
-echo '.libPaths("~/micromamba/envs/r_libs/lib/R/library")' >> $HOME/.Rprofile
-echo 'export PYTHONPATH=$HOME/micromamba/envs/python_libs/lib/python3.*/site-packages' >> $HOME/.pixi/bin/juypterlab
-
-# From now on you can install other R packages as needed with `micromamba install -n r_libs ...` and Python with `micromamba install -n python_libs ...`
+# From now on you can install other R packages as needed with `micromamba install -n r_libs ...` 
+# and Python with `micromamba install -n python_libs ...`
