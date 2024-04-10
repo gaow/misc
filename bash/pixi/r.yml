@@ -1,0 +1,13 @@
+name: r_libs
+channels:
+  - dnachun
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - r-base=4.3
+  - r-devtools
+  - r-tidyverse
+  - r-irkernel
+  - r-languageserver
+  - r-pacman

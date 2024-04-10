@@ -11,7 +11,7 @@ source ${HOME}/.bashrc
 mkdir -p ${HOME}/.config/pixi && echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > ${HOME}/.config/pixi/config.toml
 
 # install global packages
-pixi global install <(curl -fsSL  | tr '\n' ' ')
+pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/global_packages.txt | tr '\n' ' ')
 
 # install R and Python libraries currently via micromamba although later pixi will also support installing them in `global` as libraries without `bin`
 RUN micromamba config prepend channels nodefaults 
@@ -30,6 +30,8 @@ find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth
     xargs -I % jupyter-kernelspec install %
 
 # Set R and Python library paths 
+curl -fsSL init.sh | bash
+
 echo '.libPaths("~/micromamba/envs/r_libs/lib/R/library")' >> $HOME/.Rprofile
 echo 'export PYTHONPATH=$HOME/micromamba/envs/python_libs/lib/python3.*/site-packages' >> $HOME/.pixi/bin/juypterlab
 

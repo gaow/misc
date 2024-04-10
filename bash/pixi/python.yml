@@ -1,0 +1,45 @@
+name: python_libs
+channels:
+  - dnachun
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - bash_kernel
+  - cython
+  - feather-format
+  - imageio
+  - ipykernel
+  - ipywidgets
+  - ipympl
+  - jupyter_contrib_nbextensions
+  - jupyter-lsp
+  - jupyterlab-lsp
+  - jupyterhub
+  - markdown
+  - markdown-kernel
+  - matplotlib
+  - nbdime
+  - nbformat
+  - notebook
+  - numba
+  - numexpr
+  - numpy
+  - openpyxl
+  - pandas
+  - pillow
+  - pyarrow
+  - python-lsp-server
+  - scikit-image
+  - scikit-learn
+  - scipy
+  - statsmodels
+  - sympy
+  - tqdm
+  - wand
+  - widgetsnbextension
+  - python=3.12
+  - sos-bash
+  - sos-notebook
+  - sos-python
+  - sos-r
