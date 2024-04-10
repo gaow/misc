@@ -1,11 +1,29 @@
+# Determine the current shell
+if [ -n "$BASH_VERSION" ]; then
+  # Bash shell
+  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Linux
+    CONFIG_FILE="${HOME}/.bashrc"
+  elif [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    CONFIG_FILE="${HOME}/.bash_profile"
+  fi
+elif [ -n "$ZSH_VERSION" ]; then
+  # Zsh shell
+  CONFIG_FILE="${HOME}/.zshrc"
+else
+  echo "Unsupported shell. Please use bash or zsh."
+  exit 1
+fi
+
 # Install pixi
 curl -fsSL https://pixi.sh/install.sh | bash
 
-# add the pixi bin folder to your path
-echo "export PATH=\$HOME/.pixi/bin:\$PATH" >> ${HOME}/.bashrc
+# add the pixi bin folder to the PATH
+echo "export PATH=\$HOME/.pixi/bin:\$PATH" >> "${CONFIG_FILE}"
 
-# re-source your .bashrc in the same shell
-source ${HOME}/.bashrc
+# re-source the configuration file in the same shell
+source "${CONFIG_FILE}"
 
 # set default channels
 mkdir -p ${HOME}/.config/pixi && echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > ${HOME}/.config/pixi/config.toml
