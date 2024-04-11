@@ -16,7 +16,3 @@ find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -min
     xargs -I % jupyter-kernelspec install --user %
 find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --user %
-
-# temporary fix for SoS Issue 1542
-pixi global install pip
-pip install git+https://github.com/vatlab/sos.git@issue1542
