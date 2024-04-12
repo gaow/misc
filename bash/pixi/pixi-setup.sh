@@ -35,7 +35,7 @@ curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml && mi
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml 
 # a hack for Mac M chips because r-feather does not yet have conda version for arm64
 if [[ "$(uname -m)" == "arm64" ]]; then
-  sed -i '' '/sos-r/d' python.yml
+  sed -i '/sos-r/d' python.yml
 fi
 micromamba env create --yes --file python.yml && rm -f python.yml
 micromamba clean --all --yes
