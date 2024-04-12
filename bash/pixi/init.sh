@@ -8,11 +8,20 @@ echo "unset PYTHONPATH" >> ${HOME}/.bashrc
 echo '.libPaths("~/micromamba/envs/r_libs/lib/R/library")' >> ${HOME}/.Rprofile
 
 # pixi global currently gives it wrappers all lowercase names, so we need to make symlinks for R and Rscript
-ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
-ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
+if [ ! -e "${HOME}/.pixi/bin/R" ]; then
+  ln -sf "${HOME}/.pixi/bin/r" "${HOME}/.pixi/bin/R"
+fi
+
+if [ ! -e "${HOME}/.pixi/bin/Rscript" ]; then
+  ln -sf "${HOME}/.pixi/bin/rscript" "${HOME}/.pixi/bin/Rscript"
+fi
 
 # Register Juypter kernels
 find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --user %
 find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --user %
+
+# temporary fix for https://github.com/vatlab/jupyterlab-sos/issues/72
+micromamba activate python_libs
+pip install jupyterlab-sos --force-reinstall
