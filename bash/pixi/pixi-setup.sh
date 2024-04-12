@@ -17,7 +17,7 @@ else
 fi
 
 # Install pixi
-curl -fsSL https://pixi.sh/install.sh | bash || source "${CONFIG_FILE}"
+curl -fsSL https://pixi.sh/install.sh | bash && source "${CONFIG_FILE}"
 
 # set default channels
 mkdir -p ${HOME}/.config/pixi && echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > ${HOME}/.config/pixi/config.toml
