@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
 # Only show PYTHONPATH and R_LIBS to specific executables
 sed -i '2i export PYTHONPATH="${HOME}/micromamba/envs/python_libs/lib/python3.12/site-packages"' ${HOME}/.pixi/bin/python
 sed -i '2i export PYTHONPATH="${HOME}/micromamba/envs/python_libs/lib/python3.12/site-packages"' ${HOME}/.pixi/bin/python3
@@ -21,7 +25,3 @@ find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -min
     xargs -I % jupyter-kernelspec install --user %
 find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --user %
-
-# temporary fix for https://github.com/vatlab/jupyterlab-sos/issues/72
-micromamba activate python_libs
-pip install jupyterlab-sos --force-reinstall
