@@ -19,9 +19,6 @@ fi
 # Install pixi
 curl -fsSL https://pixi.sh/install.sh | bash
 
-# add the pixi bin folder to the PATH
-echo "export PATH=\$HOME/.pixi/bin:\$PATH" >> "${CONFIG_FILE}"
-
 # re-source the configuration file in the same shell
 source "${CONFIG_FILE}"
 
