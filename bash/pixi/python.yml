@@ -15,6 +15,7 @@ dependencies:
   - jupyter_contrib_nbextensions
   - jupyter-lsp
   - jupyterlab-lsp
+  - jupyterlab_sos
   - jupyterhub
   - markdown
   - markdown-kernel
