@@ -19,6 +19,8 @@ if [ ! -e "${HOME}/.pixi/bin/Rscript" ]; then
   ln -sf "${HOME}/.pixi/bin/rscript" "${HOME}/.pixi/bin/Rscript"
 fi
 
+ln -s ${HOME}/micromamba/envs/python_libs/bin/sos ${HOME}/.pixi/bin
+
 # Register Juypter kernels
 find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --user %
