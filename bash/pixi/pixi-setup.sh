@@ -17,6 +17,7 @@ else
 fi
 
 # Install pixi
+echo -e 'export PATH="$HOME/.pixi/bin:${PATH}"' >> ${CONFIG_FILE}
 curl -fsSL https://pixi.sh/install.sh | bash && source "${CONFIG_FILE}"
 
 # set default channels
