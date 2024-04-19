@@ -11,5 +11,5 @@ dependencies:
   - r-irkernel
   - r-languageserver
   - r-pacman
-  - r-pecotmr
+  - r-colorout
   - r-ggplot2
