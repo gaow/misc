@@ -1,3 +1,4 @@
+set -e
 # Determine the current shell
 if [ -n "$BASH_VERSION" ]; then
   # Bash shell
