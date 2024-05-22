@@ -20,6 +20,7 @@ dependencies:
   - markdown
   - markdown-kernel
   - matplotlib
+  - nb_conda_kernels
   - nbdime
   - nbformat
   - notebook
