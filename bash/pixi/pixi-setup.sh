@@ -1,6 +1,10 @@
-set -e
+set -euo pipefail
+
 # Determine the current shell
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "$ZSH_VERSION" ]; then
+  # Zsh shell
+  CONFIG_FILE="${HOME}/.zshrc"
+elif [ -n "$BASH_VERSION" ]; then
   # Bash shell
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Linux
@@ -9,9 +13,6 @@ if [ -n "$BASH_VERSION" ]; then
     # macOS
     CONFIG_FILE="${HOME}/.bash_profile"
   fi
-elif [ -n "$ZSH_VERSION" ]; then
-  # Zsh shell
-  CONFIG_FILE="${HOME}/.zshrc"
 else
   echo "Unsupported shell. Please use bash or zsh."
   exit 1
