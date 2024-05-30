@@ -1,9 +1,9 @@
 set -euo pipefail
 # Determine the current shell
-if [ "$([[ -o posix ]] && echo "POSIX" || echo "ZSH")" = "ZSH" ] || [ -n "$ZSH_VERSION" ]; then
+if [ -z "$ZSH_VERSION" ]; then
   # Zsh shell
   CONFIG_FILE="${HOME}/.zshrc"
-elif [ -n "$BASH_VERSION" ]; then
+elif [ -z "$BASH_VERSION" ]; then
   # Bash shell
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     # Linux
