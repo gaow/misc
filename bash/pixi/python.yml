@@ -13,7 +13,6 @@ dependencies:
   - ipywidgets
   - ipympl
   - ipyparallel
-  - jupyter_console
   - jupyter_contrib_nbextensions
   - jupyter-lsp
   - jupyterlab-lsp
