@@ -17,6 +17,8 @@ else
   exit 1
 fi
 
+echo "Configuration file ${CONFIG_FILE} will be modified by this script."
+
 # Install pixi
 curl -fsSL https://pixi.sh/install.sh | bash
 
