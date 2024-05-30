@@ -21,8 +21,9 @@ fi
 curl -fsSL https://pixi.sh/install.sh | bash
 
 # Configure shell
-if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
-  sed -i '$s/.*/ export PATH="${HOME}\/.pixi\/bin:${PATH}"/' "${CONFIG_FILE}"
+# Configure shell
+if ! grep -q 'export PATH="\${HOME}/.pixi/bin:\${PATH}"' "${CONFIG_FILE}"; then
+  echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
 fi
 
 if ! grep -q 'unset PYTHONPATH' "${CONFIG_FILE}"; then
