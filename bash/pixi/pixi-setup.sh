@@ -18,7 +18,7 @@ else
 fi
 
 # Install pixi
-curl -fsSL https://pixi.sh/install.sh | sed '/set -euo pipefail/c\set -e' | bash
+curl -fsSL https://pixi.sh/install.sh | bash
 
 # Configure shell
 if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
