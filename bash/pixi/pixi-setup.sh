@@ -23,7 +23,6 @@ echo "Configuration file ${CONFIG_FILE} will be modified by this script."
 curl -fsSL https://pixi.sh/install.sh | bash
 
 # Configure shell
-# Configure shell
 if ! grep -q 'export PATH="\${HOME}/.pixi/bin:\${PATH}"' "${CONFIG_FILE}"; then
   echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
   export PATH="${HOME}/.pixi/bin:${PATH}"
