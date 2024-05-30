@@ -18,11 +18,22 @@ else
 fi
 
 # Install pixi
-curl -fsSL https://pixi.sh/install.sh | bash && \
-  sed -i '$s/.*/export PATH="${HOME}\/.pixi\/bin:${PATH}"/' "${CONFIG_FILE}" && \
-  echo "unset PYTHONPATH" >> "${CONFIG_FILE}" && \
-  echo "export PYDEVD_DISABLE_FILE_VALIDATION=1" >> "${CONFIG_FILE}" && \
-  source "${CONFIG_FILE}"
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Configure shell
+if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
+  sed -i '$s/.*/ export PATH="${HOME}\/.pixi\/bin:${PATH}"/' "${CONFIG_FILE}"
+fi
+
+if ! grep -q 'unset PYTHONPATH' "${CONFIG_FILE}"; then
+  echo "unset PYTHONPATH" >> "${CONFIG_FILE}"
+fi
+
+if ! grep -q 'export PYDEVD_DISABLE_FILE_VALIDATION=1' "${CONFIG_FILE}"; then
+  echo "export PYDEVD_DISABLE_FILE_VALIDATION=1" >> "${CONFIG_FILE}"
+fi
+
+source "${CONFIG_FILE}"
 
 # set default channels
 mkdir -p ${HOME}/.config/pixi && echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > ${HOME}/.config/pixi/config.toml
