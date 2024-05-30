@@ -3,7 +3,7 @@ bcftools
 bedtools
 htslib
 jedi-language-server
-jupyterlab
+jupyterlab=4.1
 jupyter_client
 jupyter_console
 jupyter_core
