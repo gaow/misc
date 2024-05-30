@@ -1,7 +1,6 @@
 set -euo pipefail
-
 # Determine the current shell
-if [ -n "$ZSH_VERSION" ]; then
+if [ "$([[ -o posix ]] && echo "POSIX" || echo "ZSH")" = "ZSH" ] || [ -n "$ZSH_VERSION" ]; then
   # Zsh shell
   CONFIG_FILE="${HOME}/.zshrc"
 elif [ -n "$BASH_VERSION" ]; then
