@@ -1,6 +1,7 @@
 # Configuration file for lab.
 
 c = get_config()  #noqa
+c.ServerApp.iopub_msg_rate_limit = 5000
 
 #------------------------------------------------------------------------------
 # Application(SingletonConfigurable) configuration
