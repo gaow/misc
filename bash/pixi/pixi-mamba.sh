@@ -1,6 +1,6 @@
 set -euo pipefail
 # Install pixi
-curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-config.sh | bash 
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash 
 
 # Install global packages
 pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/global_packages.txt | tr '\n' ' ')
