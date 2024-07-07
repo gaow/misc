@@ -42,6 +42,3 @@ find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth
 mkdir -p $HOME/.jupyter && \
 curl -o $HOME/.jupyter/jupyter_lab_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/jupyter_lab_config.py && \
 curl -o $HOME/.jupyter/jupyter_server_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/jupyter_server_config.py
-
-# Fix an issue with jupyter_client version as of June 2024 (not sure why a lower version was installed by default)
-micromamba install -n python_libs jupyter_client=8.6.2 -y
