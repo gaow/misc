@@ -23,17 +23,19 @@ if ! command -v pixi &> /dev/null
 then
     # Install Pixi
     curl -fsSL https://pixi.sh/install.sh | bash
-        
+
     if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
         echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
         export PATH="${HOME}/.pixi/bin:${PATH}"
     fi
+
+    echo "Pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal."
+    exit 0
 else
     echo "Pixi is already installed."
 fi
 
 # Configure shell
-
 if ! grep -q 'unset PYTHONPATH' "${CONFIG_FILE}"; then
   echo "unset PYTHONPATH" >> "${CONFIG_FILE}"
   unset PYTHONPATH
