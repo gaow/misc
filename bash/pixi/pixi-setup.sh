@@ -1,18 +1,13 @@
-# Determine the current shell
-if [ -v ZSH_VERSION ]; then
-  # Zsh shell
+set -e
+# Determine the operating system
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # macOS
   CONFIG_FILE="${HOME}/.zshrc"
-elif [ -v BASH_VERSION ]; then
-  # Bash shell
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    # Linux
-    CONFIG_FILE="${HOME}/.bashrc"
-  elif [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
-    CONFIG_FILE="${HOME}/.bash_profile"
-  fi
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # Linux
+  CONFIG_FILE="${HOME}/.bashrc"
 else
-  echo "Unsupported shell. Please use bash or zsh."
+  echo "Unsupported OS. Please use macOS or Linux."
   exit 1
 fi
 
