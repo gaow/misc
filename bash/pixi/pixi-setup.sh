@@ -23,9 +23,9 @@ then
         echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
         export PATH="${HOME}/.pixi/bin:${PATH}"
     fi
-
-    echo "Pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal."
-    exit 0
+    BB='\033[1;34m'
+    NC='\033[0m'
+    echo -e "${BB}Pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal, and rerun this setup script.${NC}"
 else
     echo "Pixi is already installed."
 fi
