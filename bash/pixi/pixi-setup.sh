@@ -26,6 +26,7 @@ then
     BB='\033[1;34m'
     NC='\033[0m'
     echo -e "${BB}Pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal, and rerun this setup script.${NC}"
+    exit 1
 else
     echo "Pixi is already installed."
 fi
