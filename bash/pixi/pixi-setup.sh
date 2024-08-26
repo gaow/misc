@@ -18,23 +18,21 @@ touch ${CONFIG_FILE}
 if ! which pixi > /dev/null 2>&1
 then
     # Install Pixi
+    echo "pixi program not found."
     curl -fsSL https://pixi.sh/install.sh | bash
 else
-    echo "Pixi is already installed."
+    echo "pixi is already installed."
 fi
 
 # Configure shell
 if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
     echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
-    export PATH="${HOME}/.pixi/bin:${PATH}"
 fi
 if ! grep -q 'unset PYTHONPATH' "${CONFIG_FILE}"; then
   echo "unset PYTHONPATH" >> "${CONFIG_FILE}"
-  unset PYTHONPATH
 fi
 if ! grep -q 'export PYDEVD_DISABLE_FILE_VALIDATION=1' "${CONFIG_FILE}"; then
   echo "export PYDEVD_DISABLE_FILE_VALIDATION=1" >> "${CONFIG_FILE}"
-  export PYDEVD_DISABLE_FILE_VALIDATION=1
 fi
 if ! which pixi > /dev/null 2>&1
 then
