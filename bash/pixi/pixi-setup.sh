@@ -18,7 +18,6 @@ touch ${CONFIG_FILE}
 if ! which pixi > /dev/null 2>&1
 then
     # Install Pixi
-    echo "pixi program not found."
     curl -fsSL https://pixi.sh/install.sh | bash
 else
     echo "pixi is already installed."
@@ -38,7 +37,7 @@ if ! which pixi > /dev/null 2>&1
 then
     BB='\033[1;34m'
     NC='\033[0m'
-    echo -e "${BB}Pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal, and rerun this setup script.${NC}"
+    echo -e "${BB}pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal, and rerun this setup script.${NC}"
     exit 1
 fi
 # set default channels
