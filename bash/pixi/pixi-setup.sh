@@ -15,7 +15,7 @@ echo "Configuration file ${CONFIG_FILE} will be modified by this script."
 touch ${CONFIG_FILE}
 
 # Install pixi
-if ! command -v pixi &> /dev/null
+if ! which pixi > /dev/null 2>&1
 then
     # Install Pixi
     curl -fsSL https://pixi.sh/install.sh | bash
@@ -36,7 +36,7 @@ if ! grep -q 'export PYDEVD_DISABLE_FILE_VALIDATION=1' "${CONFIG_FILE}"; then
   echo "export PYDEVD_DISABLE_FILE_VALIDATION=1" >> "${CONFIG_FILE}"
   export PYDEVD_DISABLE_FILE_VALIDATION=1
 fi
-if ! command -v pixi &> /dev/null
+if ! which pixi > /dev/null 2>&1
 then
     BB='\033[1;34m'
     NC='\033[0m'
