@@ -11,8 +11,11 @@ micromamba config prepend channels bioconda
 micromamba config prepend channels conda-forge
 micromamba config prepend channels dnachun
 micromamba shell init --shell=bash ${HOME}/micromamba
-rm -rf ${HOME}/micromamba/envs/r_libs
-rm -rf ${HOME}/micromamba/envs/python_libs
+# NOTE: This is assuming a first-time run
+if [ -n ${HOME}/micromamba/envs/etc ]; then
+    rm -rf ${HOME}/micromamba/etc
+fi
+
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml && micromamba env create --yes --file r.yml && rm -f r.yml
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml && micromamba env create --yes --file python.yml && rm -f python.yml
 micromamba clean --all --yes
