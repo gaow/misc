@@ -27,17 +27,17 @@ echo ".libPaths('${MAMBA_ROOT_PREFIX}/envs/r_libs/lib/R/library')" >> ${PIXI_HOM
 ln -f ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site ${PIXI_HOME}/envs/rstudio/lib/R/etc/Rprofile.site
 
 # Create config files for rstudio
-mkdir -p ${PIXI_HOME}/.pixi/envs/rstudio/etc/rstudio
+mkdir -p ${PIXI_HOME}/envs/rstudio/etc/rstudio
 
-tee ${PIXI_HOME}/.pixi/envs/rstudio/etc/rstudio/database.conf << EOF
-directory=${PIXI_HOME}/.local/var/lib/rstudio-server
+tee ${PIXI_HOME}/envs/rstudio/etc/rstudio/database.conf << EOF
+directory=${HOME}/.local/var/lib/rstudio-server
 EOF
 
-tee ${PIXI_HOME}/.pixi/envs/rstudio/etc/rstudio/rserver.conf << EOF
+tee ${PIXI_HOME}/envs/rstudio/etc/rstudio/rserver.conf << EOF
 auth-none=1
-database-config-file=${PIXI_HOME}/.pixi/envs/rstudio/etc/rstudio/database.conf
+database-config-file=${PIXI_HOME}/envs/rstudio/etc/rstudio/database.conf
 server-daemonize=0
-server-data-dir=${PIXI_HOME}/.local/var/run/rstudio-server
+server-data-dir=${HOME}/.local/var/run/rstudio-server
 server-user=${USER}
 EOF
 
