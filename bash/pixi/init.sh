@@ -34,9 +34,9 @@ mkdir -p ${PIXI_HOME}/envs/r-base/lib/R/etc
 echo ".libPaths('${MAMBA_ROOT_PREFIX}/envs/r_libs/lib/R/library')" >> ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site
 
 # Create config files for rstudio
-mkdir -p ${PIXI_HOME}/envs/rstudio/etc/rstudio
-ln -f ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site ${PIXI_HOME}/envs/rstudio/lib/R/etc/Rprofile.site
 mkdir -p ${PIXI_HOME}/envs/rstudio/lib/R/etc
+ln -f ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site ${PIXI_HOME}/envs/rstudio/lib/R/etc/Rprofile.site
+mkdir -p ${PIXI_HOME}/envs/rstudio/etc/rstudio
 tee ${PIXI_HOME}/envs/rstudio/etc/rstudio/database.conf << EOF
 directory=${HOME}/.local/var/lib/rstudio-server
 EOF
