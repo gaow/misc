@@ -18,6 +18,7 @@ plink
 plink2
 python
 r-base
+rstudio
 ruby
 sed
 sos
