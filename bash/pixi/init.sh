@@ -20,15 +20,23 @@ ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${P
 ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyterlab/lib/python3.12/site-packages/
 ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/sos/lib/python3.12/site-packages/
 
+# pixi global currently gives it wrappers all lowercase names, so we need to make symlinks for R and Rscript
+if [ ! -e "${HOME}/.pixi/bin/R" ]; then
+  ln -sf "${HOME}/.pixi/bin/r" "${HOME}/.pixi/bin/R"
+fi
+
+if [ ! -e "${HOME}/.pixi/bin/Rscript" ]; then
+  ln -sf "${HOME}/.pixi/bin/rscript" "${HOME}/.pixi/bin/Rscript"
+fi
+
 # Use Rprofile.site so that only pixi-installed R can see r_libs packages
 mkdir -p ${PIXI_HOME}/envs/r-base/lib/R/etc
 echo ".libPaths('${MAMBA_ROOT_PREFIX}/envs/r_libs/lib/R/library')" >> ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site
 
-ln -f ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site ${PIXI_HOME}/envs/rstudio/lib/R/etc/Rprofile.site
-
 # Create config files for rstudio
 mkdir -p ${PIXI_HOME}/envs/rstudio/etc/rstudio
-
+ln -f ${PIXI_HOME}/envs/r-base/lib/R/etc/Rprofile.site ${PIXI_HOME}/envs/rstudio/lib/R/etc/Rprofile.site
+mkdir -p ${PIXI_HOME}/envs/rstudio/lib/R/etc
 tee ${PIXI_HOME}/envs/rstudio/etc/rstudio/database.conf << EOF
 directory=${HOME}/.local/var/lib/rstudio-server
 EOF
@@ -40,15 +48,6 @@ server-daemonize=0
 server-data-dir=${HOME}/.local/var/run/rstudio-server
 server-user=${USER}
 EOF
-
-# pixi global currently gives it wrappers all lowercase names, so we need to make symlinks for R and Rscript
-if [ ! -e "${HOME}/.pixi/bin/R" ]; then
-  ln -sf "${HOME}/.pixi/bin/r" "${HOME}/.pixi/bin/R"
-fi
-
-if [ ! -e "${HOME}/.pixi/bin/Rscript" ]; then
-  ln -sf "${HOME}/.pixi/bin/rscript" "${HOME}/.pixi/bin/Rscript"
-fi
 
 # Register Juypter kernels
 find ${HOME}/micromamba/envs/python_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
