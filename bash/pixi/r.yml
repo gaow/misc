@@ -10,6 +10,3 @@ dependencies:
   - r-tidyverse
   - r-irkernel
   - r-languageserver
-  - r-pacman
-  - r-colorout
-  - r-ggplot2
