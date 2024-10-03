@@ -5,10 +5,11 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
+  - altair
   - bash_kernel
   - cython
+  - dill
   - feather-format
-  - imageio
   - ipykernel
   - ipywidgets
   - ipympl
@@ -19,7 +20,7 @@ dependencies:
   - jupyterhub
   - markdown
   - markdown-kernel
-  - matplotlib
+  - matplotlib-base
   - nb_conda_kernels
   - nbdime
   - nbformat
@@ -29,18 +30,16 @@ dependencies:
   - numpy
   - openpyxl
   - pandas
-  - pillow
   - pyarrow
   - python-lsp-server
-  - scikit-image
   - scikit-learn
   - scipy
+  - seaborn
   - statsmodels
   - sympy
   - tqdm
-  - wand
   - widgetsnbextension
-  - python>=3.12
+  - python=3.12
   - sos-bash
   - sos-notebook
   - sos-python

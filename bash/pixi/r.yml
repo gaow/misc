@@ -5,11 +5,8 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - r-base>=4.3
+  - r-base=4.3
   - r-devtools
   - r-tidyverse
   - r-irkernel
   - r-languageserver
-  - r-pacman
-  - r-colorout
-  - r-ggplot2
