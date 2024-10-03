@@ -10,6 +10,7 @@ dependencies:
   - cython
   - dill
   - feather-format
+  - imageio
   - ipykernel
   - ipywidgets
   - ipympl
@@ -30,6 +31,7 @@ dependencies:
   - numpy
   - openpyxl
   - pandas
+  - pillow
   - pyarrow
   - python-lsp-server
   - scikit-learn
@@ -38,6 +40,7 @@ dependencies:
   - statsmodels
   - sympy
   - tqdm
+  - wand
   - widgetsnbextension
   - python=3.12
   - sos-bash
