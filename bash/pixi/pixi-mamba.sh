@@ -24,6 +24,9 @@ if [ -n ${HOME}/micromamba/envs/etc ]; then
     rm -rf ${HOME}/micromamba/etc
 fi
 
+rm -rf ${HOME}/.mambarc
+echo "use_lockfiles: false" >> ${HOME}/.mambarc
+
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml && micromamba env create --yes -q --file r.yml && rm -f r.yml
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml && micromamba env create --yes -q --file python.yml && rm -f python.yml
 micromamba clean --all --yes
