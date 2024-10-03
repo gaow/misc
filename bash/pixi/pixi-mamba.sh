@@ -1,6 +1,10 @@
 set -euo pipefail
+
+export PIXI_HOME="${HOME}/.pixi"
+export MAMBA_ROOT_PREFIX="${HOME}/micromamba"
+
 # Install pixi
-curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash 
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash
 
 # Install global packages
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/global_packages.txt | xargs -I % pixi global install %
@@ -19,7 +23,6 @@ micromamba shell init --shell=bash ${HOME}/micromamba
 if [ -n ${HOME}/micromamba/envs/etc ]; then
     rm -rf ${HOME}/micromamba/etc
 fi
-
 
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml && micromamba env create --yes -q --file r.yml && rm -f r.yml
 curl -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml && micromamba env create --yes -q --file python.yml && rm -f python.yml
