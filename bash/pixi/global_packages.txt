@@ -1,4 +1,3 @@
-awscli
 bcftools
 bedtools
 curl
