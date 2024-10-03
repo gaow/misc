@@ -40,7 +40,7 @@ dependencies:
   - tqdm
   - wand
   - widgetsnbextension
-  - python>=3.12
+  - python=3.12
   - sos-bash
   - sos-notebook
   - sos-python

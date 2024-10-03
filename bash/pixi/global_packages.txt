@@ -16,8 +16,8 @@ notebook
 parallel
 plink
 plink2
-python
-r-base
+python=3.12
+r-base=4.3
 ruby
 sed
 sos
