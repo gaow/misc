@@ -1,10 +1,10 @@
-awk
 awscli
 bcftools
 bedtools
 code-server
 coreutils
 curl
+gawk
 grep
 htslib
 jedi-language-server

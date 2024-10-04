@@ -61,7 +61,9 @@ curl -s -o $HOME/.jupyter/jupyter_lab_config.py https://raw.githubusercontent.co
 curl -s -o $HOME/.jupyter/jupyter_server_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/jupyter/jupyter_server_config.py
 
 # VSCode configurations
+mkdir -p ${HOME}/.config/code-server
 curl -s -o $HOME/.config/code-server/config.yaml https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/config.yaml
+mkdir -p ${HOME}/.local/share/code-server/User
 curl -s -o $HOME/.local/share/code-server/User/settings.json https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/settings.json
 
 # Install VSCode extensions
