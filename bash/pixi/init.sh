@@ -57,5 +57,17 @@ find ${HOME}/micromamba/envs/r_libs/share/jupyter/kernels/ -maxdepth 1 -mindepth
 
 # Jupyter configurations
 mkdir -p $HOME/.jupyter && \
-curl -s -o $HOME/.jupyter/jupyter_lab_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/jupyter_lab_config.py && \
-curl -s -o $HOME/.jupyter/jupyter_server_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/jupyter_server_config.py
+curl -s -o $HOME/.jupyter/jupyter_lab_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/jupyter/jupyter_lab_config.py && \
+curl -s -o $HOME/.jupyter/jupyter_server_config.py https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/jupyter/jupyter_server_config.py
+
+# VSCode configurations
+curl -s -o $HOME/.config/code-server/config.yaml https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/config.yaml
+curl -s -o $HOME/.local/share/code-server/User/settings.json https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/settings.json
+
+# Install VSCode extensions
+code-server --install-extension ms-python.python
+code-server --install-extension ms-toolsai.jupyter
+code-server --install-extension reditorsupport.r
+code-server --install-extension rdebugger.r-debugger
+code-server --install-extension ionutvmi.path-autocomplete
+code-server --install-extension usernamehw.errorlens

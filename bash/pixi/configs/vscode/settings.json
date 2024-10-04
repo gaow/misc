@@ -1,0 +1,9 @@
+{
+    "path-autocomplete.pathMappings": {
+        "/": "/",
+        "./": "${folder}"
+    },
+    "r.bracketedPaste": true,
+    "r.plot.useHttpgd": true,
+    "r.rterm.linux": "${userHome}/.pixi/bin/radian"
+}

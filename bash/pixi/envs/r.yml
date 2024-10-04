@@ -7,6 +7,7 @@ channels:
 dependencies:
   - r-base=4.3
   - r-devtools
+  - r-httpgd
   - r-tidyverse
   - r-irkernel
   - r-languageserver

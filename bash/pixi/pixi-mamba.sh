@@ -7,7 +7,7 @@ export MAMBA_ROOT_PREFIX="${HOME}/micromamba"
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash
 
 # Install global packages
-curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/global_packages.txt | xargs -I % pixi global install %
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | xargs -I % pixi global install %
 
 # install R and Python libraries currently via micromamba although later pixi will also support installing them in `global` as libraries without `bin`
 # NOTE: This is assuming a first-time run
@@ -28,9 +28,9 @@ rm -rf ${HOME}/.mambarc
 echo "use_lockfiles: false" >> ${HOME}/.mambarc
 
 echo "Installing recommended R libraries ..."
-curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml && micromamba env create --yes --quiet --file r.yml && rm -f r.yml
+curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r.yml && micromamba env create --yes --quiet --file r.yml && rm -f r.yml
 echo "Installing recommended Python packages ..."
-curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml && micromamba env create --yes --quiet --file python.yml && rm -f python.yml
+curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python.yml && micromamba env create --yes --quiet --file python.yml && rm -f python.yml
 micromamba clean --all --yes
 
 # fix R and Python settings 

@@ -1,7 +1,11 @@
+awk
 awscli
 bcftools
 bedtools
+code-server
+coreutils
 curl
+grep
 htslib
 jedi-language-server
 jupyterlab
@@ -13,12 +17,15 @@ less
 micromamba
 nbconvert-core
 notebook
+pandoc
 parallel
 plink
 plink2
 python=3.12
 r-base=4.3
 rstudio
+radian
+ripgrep
 ruby
 sed
 sos
