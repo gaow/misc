@@ -27,7 +27,9 @@ fi
 rm -rf ${HOME}/.mambarc
 echo "use_lockfiles: false" >> ${HOME}/.mambarc
 
+echo "Installing recommended R libraries ..."
 curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/r.yml && micromamba env create --yes --quiet --file r.yml && rm -f r.yml
+echo "Installing recommended Python packages ..."
 curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/python.yml && micromamba env create --yes --quiet --file python.yml && rm -f python.yml
 micromamba clean --all --yes
 
