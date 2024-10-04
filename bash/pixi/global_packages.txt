@@ -1,6 +1,7 @@
 awscli
 bcftools
 bedtools
+code-server
 curl
 htslib
 jedi-language-server
@@ -13,10 +14,12 @@ less
 micromamba
 nbconvert-core
 notebook
+pandoc
 parallel
 plink
 plink2
 python=3.12
+radian
 r-base=4.3
 rstudio
 ruby
