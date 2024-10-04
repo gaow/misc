@@ -1,8 +1,11 @@
+awk
 awscli
 bcftools
 bedtools
 code-server
+coreutils
 curl
+grep
 htslib
 jedi-language-server
 jupyterlab
@@ -19,9 +22,10 @@ parallel
 plink
 plink2
 python=3.12
-radian
 r-base=4.3
 rstudio
+radian
+ripgrep
 ruby
 sed
 sos
