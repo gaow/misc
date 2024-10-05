@@ -67,9 +67,19 @@ mkdir -p ${HOME}/.local/share/code-server/User
 curl -s -o $HOME/.local/share/code-server/User/settings.json https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/settings.json
 
 # Install VSCode extensions
-code-server --install-extension ms-python.python
-code-server --install-extension ms-toolsai.jupyter
-code-server --install-extension reditorsupport.r
-code-server --install-extension rdebugger.r-debugger
-code-server --install-extension ionutvmi.path-autocomplete
-code-server --install-extension usernamehw.errorlens
+if command -v code-server &> /dev/null
+then
+    echo "code-server is available. Installing extensions..."
+    
+    code-server --install-extension ms-python.python
+    code-server --install-extension ms-toolsai.jupyter
+    code-server --install-extension reditorsupport.r
+    code-server --install-extension rdebugger.r-debugger
+    code-server --install-extension ionutvmi.path-autocomplete
+    code-server --install-extension usernamehw.errorlens
+    
+    echo "Extensions installation complete."
+else
+    echo "code-server extensions installation is skipped because code-server is not available."
+    exit 1
+fi
