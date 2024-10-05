@@ -1,4 +1,4 @@
-awscli
+#awscli
 bcftools
 bedtools
 #code-server
