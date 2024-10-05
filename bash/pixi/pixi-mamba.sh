@@ -8,6 +8,7 @@ curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-set
 
 # Install global packages
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | xargs -I % pixi global install %
+pixi clean
 
 # install R and Python libraries currently via micromamba although later pixi will also support installing them in `global` as libraries without `bin`
 # NOTE: This is assuming a first-time run
