@@ -1,7 +1,7 @@
 awscli
 bcftools
 bedtools
-code-server
+#code-server
 coreutils
 curl
 gawk
@@ -23,7 +23,7 @@ plink
 plink2
 python=3.12
 r-base=4.3
-rstudio
+#rstudio
 radian
 ripgrep
 ruby
