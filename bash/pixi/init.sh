@@ -81,5 +81,4 @@ then
     echo "Extensions installation complete."
 else
     echo "code-server extensions installation is skipped because code-server is not available."
-    exit 1
 fi
