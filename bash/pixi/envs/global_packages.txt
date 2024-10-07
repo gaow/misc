@@ -5,6 +5,7 @@ bedtools
 coreutils
 curl
 gawk
+git
 grep
 htslib
 jedi-language-server
