@@ -7,7 +7,7 @@ export MAMBA_ROOT_PREFIX="${HOME}/micromamba"
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash
 
 # Install global packages
-curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | xargs -I % pixi global install %
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | xargs -I % bash -c "pixi global install %"
 pixi clean cache -y
 
 # install R and Python libraries currently via micromamba although later pixi will also support installing them in `global` as libraries without `bin`
