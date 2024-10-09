@@ -13,12 +13,12 @@ sys.path[0:0] = [
 ]
 EOF
 
-ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_client/lib/python3.12/site-packages/
-ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_console/lib/python3.12/site-packages/
-ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_core/lib/python3.12/site-packages/
-ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_server/lib/python3.12/site-packages/
-ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyterlab/lib/python3.12/site-packages/
-ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/sos/lib/python3.12/site-packages/
+ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jedi-language-server/lib/python3.12/site-packages/
+# ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_console/lib/python3.12/site-packages/
+# ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_core/lib/python3.12/site-packages/
+# ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyter_server/lib/python3.12/site-packages/
+# ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/jupyterlab/lib/python3.12/site-packages/
+# ln -f ${PIXI_HOME}/envs/python/lib/python3.12/site-packages/sitecustomize.py ${PIXI_HOME}/envs/sos/lib/python3.12/site-packages/
 
 # pixi global currently gives it wrappers all lowercase names, so we need to make symlinks for R and Rscript
 if [ ! -e "${HOME}/.pixi/bin/R" ]; then
@@ -66,19 +66,9 @@ curl -s -o $HOME/.config/code-server/config.yaml https://raw.githubusercontent.c
 mkdir -p ${HOME}/.local/share/code-server/User
 curl -s -o $HOME/.local/share/code-server/User/settings.json https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/settings.json
 
-# Install VSCode extensions
-if command -v code-server &> /dev/null
-then
-    echo "code-server is available. Installing extensions..."
-    
-    code-server --install-extension ms-python.python
-    code-server --install-extension ms-toolsai.jupyter
-    code-server --install-extension reditorsupport.r
-    code-server --install-extension rdebugger.r-debugger
-    code-server --install-extension ionutvmi.path-autocomplete
-    code-server --install-extension usernamehw.errorlens
-    
-    echo "Extensions installation complete."
-else
-    echo "code-server extensions installation is skipped because code-server is not available."
-fi
+code-server --install-extension ms-python.python
+code-server --install-extension ms-toolsai.jupyter
+code-server --install-extension reditorsupport.r
+code-server --install-extension rdebugger.r-debugger
+code-server --install-extension ionutvmi.path-autocomplete
+code-server --install-extension usernamehw.errorlens
