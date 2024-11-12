@@ -7,34 +7,29 @@ export MAMBA_ROOT_PREFIX="${HOME}/micromamba"
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash
 
 # Install global packages
-curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | xargs -I % bash -c "pixi global install %"
+pixi global install <(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | tr '\n' ' ')
+pixi global install r-base=4.3 --expose R=r --expose Rscript=rscript
+pixi global expose remove kill
+pixi global install coreutils
+pixi global expose remove kill uptime
+pixi global install procps-ng
 pixi clean cache -y
 
-# install R and Python libraries currently via micromamba although later pixi will also support installing them in `global` as libraries without `bin`
-# NOTE: This is assuming a first-time run
-if [ -n ${HOME}/micromamba/envs/etc ]; then
-    rm -rf ${HOME}/micromamba/etc
-fi
 micromamba config prepend channels nodefaults
 micromamba config prepend channels bioconda
 micromamba config prepend channels conda-forge
 micromamba config prepend channels dnachun
 micromamba shell init --quiet --shell=bash ${HOME}/micromamba
 
-if [ -n ${HOME}/micromamba/envs/etc ]; then
-    rm -rf ${HOME}/micromamba/etc
-fi
-
-rm -rf ${HOME}/.mambarc
 echo "use_lockfiles: false" >> ${HOME}/.mambarc
 
 echo "Installing recommended R libraries ..."
-curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r.yml && micromamba env create --yes --quiet --file r.yml && rm -f r.yml
+pixi global install --environment r-base <(curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages | grep -v "#" | tr '\n' ' ')
 echo "Installing recommended Python packages ..."
-curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python.yml && micromamba env create --yes --quiet --file python.yml && rm -f python.yml
-micromamba clean --all --yes
+pixi global install --environment python <(curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python_packages | grep -v "#" | tr '\n' ' ')
+pixi clean cache -y
 
-# fix R and Python settings 
+# Install config files
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/init.sh | bash
 
 # print messages
