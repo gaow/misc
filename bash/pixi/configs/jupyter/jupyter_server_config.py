@@ -267,8 +267,8 @@ c.ServerApp.iopub_msg_rate_limit = 5000
 
 ## Extra paths to look for federated JupyterLab extensions
 #  Default: []
-import os.path
-c.LabServerApp.extra_labextensions_path = [os.path.expanduser("~/micromamba/envs/python_libs/share/jupyter/labextensions")]
+# import os.path
+# c.LabServerApp.extra_labextensions_path = [os.path.expanduser("~/micromamba/envs/python_libs/share/jupyter/labextensions")]
 
 ## Generate default config file.
 #  See also: JupyterApp.generate_config
