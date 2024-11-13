@@ -3,6 +3,7 @@
 set -o errexit -o xtrace
 
 # Use sitecustomize.py so that specific Python packages can see python_libs packages
+mkdir -p ${HOME}/.local/lib/python3.12/site-packages
 tee ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py << EOF
 import sys
 sys.path[0:0] = [
@@ -12,6 +13,9 @@ EOF
 
 # Use Rprofile.site so that only pixi-installed R can see r_libs packages
 echo ".libPaths('/opt/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+
+ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
+ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
 
 # Create config files for rstudio
 mkdir -p ${HOME}/.config/rstudio
@@ -32,7 +36,7 @@ find ${HOME}/.pixi/envs/python/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -t
     xargs -I % jupyter-kernelspec install --log-level=50 --user %
 find ${HOME}/.pixi/envs/r-base/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --log-level=50 --user %
-ark --install
+# ark --install
 
 # Jupyter configurations
 mkdir -p $HOME/.jupyter && \

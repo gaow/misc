@@ -7,7 +7,7 @@ export MAMBA_ROOT_PREFIX="${HOME}/micromamba"
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-setup.sh | bash
 
 # Install global packages
-pixi global install <(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | tr '\n' ' ')
+pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | tr '\n' ' ')
 pixi global install r-base=4.3 --expose R=r --expose Rscript=rscript
 pixi global expose remove kill
 pixi global install coreutils
@@ -24,9 +24,9 @@ micromamba shell init --quiet --shell=bash ${HOME}/micromamba
 echo "use_lockfiles: false" >> ${HOME}/.mambarc
 
 echo "Installing recommended R libraries ..."
-pixi global install --environment r-base <(curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages | grep -v "#" | tr '\n' ' ')
+pixi global install --environment r-base $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages | grep -v "#" | tr '\n' ' ')
 echo "Installing recommended Python packages ..."
-pixi global install --environment python <(curl -s -O https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python_packages | grep -v "#" | tr '\n' ' ')
+pixi global install --environment python $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python_packages | grep -v "#" | tr '\n' ' ')
 pixi clean cache -y
 
 # Install config files
