@@ -36,5 +36,5 @@ curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/init.sh 
 BB='\033[1;34m'
 NC='\033[0m'
 echo -e "${BB}Installation completed.${NC}"
-echo -e "${BB}Note: From now on you can install other R packages as needed with 'micromamba install -n r_libs ...'${NC}"
-echo -e "${BB}and Python with 'micromamba install -n python_libs ...'${NC}"
+echo -e "${BB}Note: From now on you can install other R packages as needed with 'pixi global install --environment r-base ...'${NC}"
+echo -e "${BB}and Python with 'pixi global install --environment python ...'${NC}"
