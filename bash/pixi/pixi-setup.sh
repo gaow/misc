@@ -18,7 +18,6 @@ touch ${CONFIG_FILE}
 if ! which pixi > /dev/null 2>&1
 then
     # Install Pixi
-    export PIXI_VERSION="v0.34.0"
     curl -fsSL https://pixi.sh/install.sh | bash
 else
     echo "pixi is already installed."
