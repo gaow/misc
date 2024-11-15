@@ -7,12 +7,12 @@ mkdir -p ${HOME}/.local/lib/python3.12/site-packages
 tee ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py << EOF
 import sys
 sys.path[0:0] = [
-    "/opt/.pixi/envs/python/lib/python3.12/site-packages"
+    "/opt/shared/.pixi/envs/python/lib/python3.12/site-packages"
 ]
 EOF
 
 # Use Rprofile.site so that only pixi-installed R can see r_libs packages
-echo ".libPaths('/opt/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+echo ".libPaths('/opt/.pixi/shared/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
 
 ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
 ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
@@ -24,6 +24,7 @@ directory=${HOME}/.local/var/lib/rstudio-server
 EOF
 
 tee ${HOME}/.config/rstudio/rserver.conf << EOF
+rsession-which-r=${HOME}/.pixi/envs/r-base/bin/R
 auth-none=1
 database-config-file=${HOME}/.config/rstudio/database.conf
 server-daemonize=0
