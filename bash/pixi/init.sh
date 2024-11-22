@@ -17,6 +17,10 @@ echo ".libPaths('/opt/.pixi/shared/envs/r-base/lib/R/library')" >> ${HOME}/.Rpro
 ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
 ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
 
+# Temporary fix to run post-link scripts
+find ${HOME}/.pixi/envs/r-base/bin -name '*bioconductor-*-post-link.sh' | \
+   xargs -I % bash -c "PREFIX=${HOME}/.pixi/envs/r-base PATH=${HOME}/.pixi/envs/r-base/bin:${PATH} %"
+
 # Create config files for rstudio
 mkdir -p ${HOME}/.config/rstudio
 tee ${HOME}/.config/rstudio/database.conf << EOF
