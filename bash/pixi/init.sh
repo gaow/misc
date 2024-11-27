@@ -15,9 +15,6 @@ EOF
 echo ".libPaths('/opt/shared/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
 echo ".libPaths('${HOME}/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.pixi/envs/python/lib/R/etc/Rprofile.site
 
-ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
-ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
-
 # Temporary fix to run post-link scripts
 find ${HOME}/.pixi/envs/r-base/bin -name '*bioconductor-*-post-link.sh' | \
    xargs -I % bash -c "PREFIX=${HOME}/.pixi/envs/r-base PATH=${HOME}/.pixi/envs/r-base/bin:${PATH} %"
