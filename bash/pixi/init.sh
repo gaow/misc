@@ -12,7 +12,8 @@ sys.path[0:0] = [
 EOF
 
 # Use Rprofile.site so that only pixi-installed R can see r_libs packages
-echo ".libPaths('/opt/.pixi/shared/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+echo ".libPaths('/opt/shared/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+echo ".libPaths('${HOME}/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.pixi/envs/python/lib/R/etc/Rprofile.site
 
 ln -sf ${HOME}/.pixi/bin/r ${HOME}/.pixi/bin/R
 ln -sf ${HOME}/.pixi/bin/rscript ${HOME}/.pixi/bin/Rscript
