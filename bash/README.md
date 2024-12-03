@@ -56,5 +56,5 @@ Copy & paste the token part `xxxxx` to the dialog box on your browser asking for
 
 6. To shut down the server, simply cancel the job
 ```
-qdel {jobid}
+scancel {jobid}
 ```
