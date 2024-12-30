@@ -1,44 +1,32 @@
-set -e
-# Determine the operating system
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  # macOS
-  CONFIG_FILE="${HOME}/.zshrc"
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  # Linux
-  CONFIG_FILE="${HOME}/.bashrc"
-else
-  echo "Unsupported OS. Please use macOS or Linux."
-  exit 1
-fi
+set -euo pipefail
 
-echo "Configuration file ${CONFIG_FILE} will be modified by this script."
-touch ${CONFIG_FILE}
+export PIXI_HOME="${HOME}/.pixi"
 
 # Install pixi
-if ! which pixi > /dev/null 2>&1
-then
-    # Install Pixi
-    curl -fsSL https://pixi.sh/install.sh | bash
-else
-    echo "pixi is already installed."
-fi
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-install.sh | bash
 
-# Configure shell
-if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
-    echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
-fi
-if ! grep -q 'unset PYTHONPATH' "${CONFIG_FILE}"; then
-  echo "unset PYTHONPATH" >> "${CONFIG_FILE}"
-fi
-if ! grep -q 'export PYDEVD_DISABLE_FILE_VALIDATION=1' "${CONFIG_FILE}"; then
-  echo "export PYDEVD_DISABLE_FILE_VALIDATION=1" >> "${CONFIG_FILE}"
-fi
-if ! which pixi > /dev/null 2>&1
-then
-    BB='\033[1;34m'
-    NC='\033[0m'
-    echo -e "${BB}pixi installed. Please run 'source ${CONFIG_FILE}' to reload your configuration or restart your terminal, and rerun this setup script.${NC}"
-    exit 1
-fi
-# set default channels
-mkdir -p ${HOME}/.pixi && echo 'default_channels = ["dnachun", "conda-forge", "bioconda"]' > ${HOME}/.pixi/config.toml
+# Install global packages
+pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | tr '\n' ' ')
+pixi global install r-base=4.3
+pixi global expose remove kill
+pixi global install coreutils
+pixi global expose remove kill uptime
+pixi global install procps-ng
+pixi clean cache -y
+
+
+echo "Installing recommended R libraries ..."
+pixi global install --environment r-base $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages | grep -v "#" | tr '\n' ' ')
+echo "Installing recommended Python packages ..."
+pixi global install --environment python $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python_packages | grep -v "#" | tr '\n' ' ')
+pixi clean cache -y
+
+# Install config files
+curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/init.sh | bash
+
+# print messages
+BB='\033[1;34m'
+NC='\033[0m'
+echo -e "${BB}Installation completed.${NC}"
+echo -e "${BB}Note: From now on you can install other R packages as needed with 'pixi global install --environment r-base ...'${NC}"
+echo -e "${BB}and Python with 'pixi global install --environment python ...'${NC}"
