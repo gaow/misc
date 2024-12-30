@@ -7,7 +7,6 @@ diffutils
 findutils
 gawk
 git
-go-ghp
 grep
 htslib
 less
