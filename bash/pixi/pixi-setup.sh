@@ -15,9 +15,9 @@ pixi clean cache -y
 
 
 echo "Installing recommended R libraries ..."
-pixi global install --environment r-base $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages | grep -v "#" | tr '\n' ' ')
+pixi global install --environment r-base $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages.txt | grep -v "#" | tr '\n' ' ')
 echo "Installing recommended Python packages ..."
-pixi global install --environment python $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python_packages | grep -v "#" | tr '\n' ' ')
+pixi global install --environment python $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/python_packages.txt | grep -v "#" | tr '\n' ' ')
 pixi clean cache -y
 
 # Install config files
