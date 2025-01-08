@@ -1,18 +1,27 @@
 #!/usr/bin/env bash
-
 set -o errexit -o xtrace
 
-# Use sitecustomize.py so that specific Python packages can see python_libs packages
-mkdir -p ${HOME}/.local/lib/python3.12/site-packages
-tee ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py << EOF
+# Check if /mnt/efs exists
+if [ -d "/mnt/efs" ]; then
+    # Use sitecustomize.py so that specific Python packages can see python_libs packages
+    mkdir -p ${HOME}/.local/lib/python3.12/site-packages
+    tee ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py << EOF
 import sys
 sys.path[0:0] = [
     "/mnt/efs/shared/.pixi/envs/python/lib/python3.12/site-packages"
 ]
 EOF
+    # Use Rprofile.site so that only pixi-installed R can see r_libs packages
+    echo ".libPaths('/mnt/efs/shared/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+else
+    # If /mnt/efs doesn't exist, create basic sitecustomize.py without the EFS path
+    mkdir -p ${HOME}/.local/lib/python3.12/site-packages
+    tee ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py << EOF
+import sys
+EOF
+fi
 
-# Use Rprofile.site so that only pixi-installed R can see r_libs packages
-echo ".libPaths('/mnt/efs/shared/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+# Continue with the rest of the configuration that doesn't depend on /mnt/efs
 echo ".libPaths('${HOME}/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.pixi/envs/python/lib/R/etc/Rprofile.site
 
 # Temporary fix to run post-link scripts
@@ -24,7 +33,6 @@ mkdir -p ${HOME}/.config/rstudio
 tee ${HOME}/.config/rstudio/database.conf << EOF
 directory=${HOME}/.local/var/lib/rstudio-server
 EOF
-
 tee ${HOME}/.config/rstudio/rserver.conf << EOF
 rsession-which-r=${HOME}/.pixi/envs/r-base/bin/R
 auth-none=1
@@ -39,7 +47,6 @@ find ${HOME}/.pixi/envs/python/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -t
     xargs -I % jupyter-kernelspec install --log-level=50 --user %
 find ${HOME}/.pixi/envs/r-base/share/jupyter/kernels/ -maxdepth 1 -mindepth 1 -type d | \
     xargs -I % jupyter-kernelspec install --log-level=50 --user %
-# ark --install
 
 # Jupyter configurations
 mkdir -p $HOME/.jupyter && \
@@ -51,7 +58,6 @@ mkdir -p ${HOME}/.config/code-server
 curl -s -o $HOME/.config/code-server/config.yaml https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/config.yaml
 mkdir -p ${HOME}/.local/share/code-server/User
 curl -s -o $HOME/.local/share/code-server/User/settings.json https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/settings.json
-
 code-server --install-extension ms-python.python
 code-server --install-extension ms-toolsai.jupyter
 code-server --install-extension reditorsupport.r
