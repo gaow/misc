@@ -7,7 +7,6 @@ curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-ins
 
 # Install global packages
 pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | tr '\n' ' ')
-pixi global install r-base=4.3
 pixi global expose remove kill
 pixi global install coreutils
 pixi global expose remove kill uptime

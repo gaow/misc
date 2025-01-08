@@ -16,6 +16,7 @@ parallel
 plink
 plink2
 python=3.12
+r-base=4.3
 ripgrep
 ruby
 sed
