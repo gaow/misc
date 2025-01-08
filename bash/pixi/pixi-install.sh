@@ -24,8 +24,8 @@ else
 fi
 
 # Configure shell
-if ! grep -q 'export PATH="${HOME}/.pixi/bin:${PATH}"' "${CONFIG_FILE}"; then
-    echo 'export PATH="${HOME}/.pixi/bin:${PATH}"' >> "${CONFIG_FILE}"
+if ! grep -q 'export PATH=${HOME}/.pixi/bin:${PATH}' "${CONFIG_FILE}"; then
+    echo 'export PATH=${HOME}/.pixi/bin:${PATH}' >> "${CONFIG_FILE}"
 fi
 if ! grep -q 'unset PYTHONPATH' "${CONFIG_FILE}"; then
   echo "unset PYTHONPATH" >> "${CONFIG_FILE}"
