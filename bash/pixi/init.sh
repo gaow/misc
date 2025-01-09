@@ -16,10 +16,6 @@ fi
 # Use Rprofile.site so that only pixi-installed R can see r-base packages
 echo ".libPaths('${HOME}/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.pixi/envs/python/lib/R/etc/Rprofile.site
 
-# Temporary fix to run post-link scripts
-find ${HOME}/.pixi/envs/r-base/bin -name '*bioconductor-*-post-link.sh' | \
-  xargs -I % bash -c "PREFIX=${HOME}/.pixi/envs/r-base PATH=${HOME}/.pixi/envs/r-base/bin:${PATH} %"
-
 # Create config files for rstudio
 mkdir -p ${HOME}/.config/rstudio
 tee ${HOME}/.config/rstudio/database.conf << EOF
@@ -59,3 +55,7 @@ code-server --install-extension reditorsupport.r
 code-server --install-extension rdebugger.r-debugger
 code-server --install-extension ionutvmi.path-autocomplete
 code-server --install-extension usernamehw.errorlens
+
+# Temporary fix to run post-link scripts
+find ${HOME}/.pixi/envs/r-base/bin -name '*bioconductor-*-post-link.sh' | \
+  xargs -I % bash -c "PREFIX=${HOME}/.pixi/envs/r-base PATH=${HOME}/.pixi/envs/r-base/bin:${PATH} %"
