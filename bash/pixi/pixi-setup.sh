@@ -11,8 +11,6 @@ pixi global expose remove kill
 pixi global install coreutils
 pixi global expose remove kill uptime
 pixi global install procps-ng
-pixi clean cache -y
-
 
 echo "Installing recommended R libraries ..."
 pixi global install --environment r-base $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages.txt | grep -v "#" | tr '\n' ' ')
