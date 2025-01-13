@@ -1,6 +1,10 @@
 set -euo pipefail
 
-export PIXI_HOME="${HOME}/.pixi"
+if [[ ${MODE} == "shared_admin" ]]; then
+  export PIXI_HOME="/mnt/efs/shared/.pixi"
+else
+  export PIXI_HOME="${HOME}/.pixi"
+fi
 
 # Install pixi
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-install.sh | bash
