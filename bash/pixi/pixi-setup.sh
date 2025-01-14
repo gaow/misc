@@ -1,6 +1,9 @@
 set -euo pipefail
 
-export PIXI_HOME="${HOME}/.pixi"
+# If PIXI_HOME is not set already, set it to ${HOME}/.pixi
+if [[ -z $PIXI_HOME ]]; then
+  export PIXI_HOME="${HOME}/.pixi"
+fi
 
 # Install pixi
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-install.sh | bash
