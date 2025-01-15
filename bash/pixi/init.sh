@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -o errexit -o xtrace
 
+# For `oem_packages` mode, need to install r-base in order to use rstudio
+if [[ ${MODE} == "oem_packages" ]]; then
+   pixi global install r-base
+fi
+
 # Use sitecustomize.py so that specific Python packages can see python_libs packages
 if [ -d "/mnt/efs" ]; then
    if [[ ! -f ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py ]]; then
