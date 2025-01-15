@@ -19,6 +19,7 @@ fi
 
 # Use Rprofile.site so that only pixi-installed R can see r-base packages
 if [[ ! -f ${HOME}/.pixi/envs/python/lib/R/etc/Rprofile.site ]]; then
+   mkdir -p ${HOME}/.pixi/envs/python/lib/R/etc
    echo ".libPaths('${HOME}/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.pixi/envs/python/lib/R/etc/Rprofile.site
 fi
 
@@ -65,7 +66,7 @@ if [[ ! -f $HOME/.config/code-server/config.yaml ]] && [[ ! -f $HOME/.local/shar
    curl -s -o $HOME/.local/share/code-server/User/settings.json https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/configs/vscode/settings.json
 fi
 
-if ! code-server -v <the_command> 2>&1 >/dev/null; then
+if ! command -v code-server &> /dev/null; then
    echo "WARNING: code-server is not installed."
 else
    code-server --install-extension ms-python.python
