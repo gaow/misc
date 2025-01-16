@@ -1,7 +1,7 @@
 set -euo pipefail
 
 # If PIXI_HOME is not set already, set it to ${HOME}/.pixi
-if [[ -z $PIXI_HOME ]]; then
+if [[ -z ${PIXI_HOME:-} ]]; then
   export PIXI_HOME="${HOME}/.pixi"
 fi
 
