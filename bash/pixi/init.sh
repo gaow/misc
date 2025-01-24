@@ -85,5 +85,5 @@ fi
 # Temporary fix to run post-link scripts
 if [[ -d ${HOME}/.pixi/envs/r-base/bin ]]; then
    find ${HOME}/.pixi/envs/r-base/bin -name '*bioconductor-*-post-link.sh' | \
-   xargs -I % bash -c "PREFIX=${HOME}/.pixi/envs/r-base PATH=${HOME}/.pixi/envs/r-base/bin:${PATH} %"
+   xargs -I % bash -c 'PREFIX="${HOME}/.pixi/envs/r-base" PATH="${HOME}/.pixi/envs/r-base/bin:${PATH}" bash "%"'
 fi
