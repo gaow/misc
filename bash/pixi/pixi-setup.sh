@@ -1,16 +1,23 @@
 set -euo pipefail
 
-export PIXI_HOME="${HOME}/.pixi"
+# If PIXI_HOME is not set already, set it to ${HOME}/.pixi
+if [[ -z ${PIXI_HOME:-} ]]; then
+  export PIXI_HOME="${HOME}/.pixi"
+fi
 
 # Install pixi
 curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/pixi-install.sh | bash
 
 # Install global packages
 pixi global install $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/global_packages.txt | grep -v "#" | tr '\n' ' ')
-pixi global expose remove kill
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  pixi global expose remove kill
+fi
 pixi global install coreutils
-pixi global expose remove kill uptime
-pixi global install procps-ng
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  pixi global expose remove kill uptime
+  pixi global install procps-ng
+fi
 
 echo "Installing recommended R libraries ..."
 pixi global install --environment r-base $(curl -fsSL https://raw.githubusercontent.com/gaow/misc/master/bash/pixi/envs/r_packages.txt | grep -v "#" | tr '\n' ' ')
