@@ -7,10 +7,11 @@ if [ -d "/mnt/efs" ]; then
    tee ${HOME}/.local/lib/python3.12/site-packages/sitecustomize.py << EOF
 import sys
 sys.path[0:0] = [
+   "${HOME}/.pixi/envs/python/lib/python3.12/site-packages",
    "/mnt/efs/shared/.pixi/envs/python/lib/python3.12/site-packages"
 ]
 EOF
-   echo ".libPaths('/mnt/efs/shared/.pixi/envs/r-base/lib/R/library')" >> ${HOME}/.Rprofile
+echo ".libPaths(c('${HOME}/.pixi/envs/r-base/lib/R/library', '/mnt/efs/shared/.pixi/envs/r-base/lib/R/library'))" >> ${HOME}/.Rprofile
 fi
 
 # Use Rprofile.site so that only pixi-installed R can see r-base packages
