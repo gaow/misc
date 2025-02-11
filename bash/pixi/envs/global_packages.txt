@@ -1,4 +1,5 @@
 ark
+awscli
 bcftools
 bedtools
 code-server
