@@ -1,0 +1,58 @@
+name: Dispatch CI
+
+on:
+  workflow_dispatch:
+    paths:
+      - 'bash/pixi/*'
+
+jobs:
+  linux-64_pixi:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run setup script
+        run: |
+          sed -i "s/master/${GITHUB_REF}/g" bash/pixi/install.sh
+          sed -i "s/master/${GITHUB_REF}/g" bash/pixi/pixi_setup.sh
+          bash/pixi/pixi_setup.sh
+
+  osx-64_pixi:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run setup script
+        run: |
+          sed -i "s/master/${GITHUB_REF}/g" bash/pixi/install.sh
+          sed -i "s/master/${GITHUB_REF}/g" bash/pixi/pixi_setup.sh
+          bash/pixi/pixi_setup.sh
+
+  osx-arm64_pixi:
+    runs-on: macos-14
+    strategy:
+      fail-fast: false
+
+    steps:
+      - name: Checkout pull request branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run setup script
+        run: |
+          sed -i "s/master/${GITHUB_REF}/g" bash/pixi/install.sh
+          sed -i "s/master/${GITHUB_REF}/g" bash/pixi/pixi_setup.sh
+          bash/pixi/pixi_setup.sh

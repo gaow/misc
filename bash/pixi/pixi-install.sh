@@ -1,4 +1,7 @@
-set -e
+#!/usr/bin/env bash
+
+set -o errexit -o nounset -o pipefail
+
 # Determine the operating system
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS
