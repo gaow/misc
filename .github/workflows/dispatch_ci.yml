@@ -2,6 +2,8 @@ name: Dispatch CI
 
 on:
   workflow_dispatch:
+    paths:
+      - 'bash/pixi/*'
 
 jobs:
   linux-64_pixi:
